@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dindnmn8lijbc"]
+
+[ext_resource type="PackedScene" uid="uid://dou1nv6ieu41k" path="res://scenes/character.tscn" id="1_pmwsj"]
+[ext_resource type="PackedScene" uid="uid://vbhvlrf6omj" path="res://scenes/stage.tscn" id="2_hflqk"]
+[ext_resource type="PackedScene" uid="uid://d1ouvd8vaush" path="res://scenes/player.tscn" id="3_ybf1s"]
+
+[node name="BeatEmUp" type="Node2D" unique_id=1005472158]
+
+[node name="Character" parent="." unique_id=1222782351 instance=ExtResource("1_pmwsj")]
+
+[node name="stage" parent="." unique_id=898508641 instance=ExtResource("2_hflqk")]
+
+[node name="Player" parent="." unique_id=531257795 instance=ExtResource("3_ybf1s")]
+position = Vector2(24, 169)
