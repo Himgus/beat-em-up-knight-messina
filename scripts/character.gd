@@ -12,4 +12,6 @@ func _process(delta: float) -> void:
 	if direccion != 0:
 		$AnimatedSprite2D.play("walk")
 		$AnimatedSprite2D.flip_h = direccion < 0
+	else:
+		$AnimatedSprite2D.play("idle")
 	move_and_slide()

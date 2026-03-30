@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="BeatEmUpMurim-messina"
+config/name="BeatEmU-messina"
 run/main_scene="uid://dindnmn8lijbc"
 config/features=PackedStringArray("4.6", "Forward Plus")
 

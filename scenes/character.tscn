@@ -7,10 +7,9 @@ animations = []
 
 [node name="Character" type="CharacterBody2D" unique_id=1222782351]
 script = ExtResource("1_agfs1")
+velocidad = 10.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1250328835]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=271187310]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=237200550]
 sprite_frames = SubResource("SpriteFrames_agfs1")
