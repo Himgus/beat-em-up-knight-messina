@@ -8,6 +8,6 @@ func _process(delta: float) -> void:
 		global_position.x -= map_width
 	elif global_position.x<0:
 		global_position.x+=map_width
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 
 	move_and_slide()

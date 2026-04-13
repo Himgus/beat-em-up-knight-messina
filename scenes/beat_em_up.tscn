@@ -14,7 +14,7 @@ script = ExtResource("1_ybf1s")
 z_index = -1
 
 [node name="Player" parent="." unique_id=531257795 instance=ExtResource("3_ybf1s")]
-position = Vector2(25, 160)
+position = Vector2(25, 168)
 velocidad = 70.0
 JUMP_VELOCITY = -250
 

@@ -12,8 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://cakhur26pcyce" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_AttackNoMovement.png" id="6_jej6c"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dqkch"]
-radius = 6.5
-height = 17.0
+radius = 2.0
+height = 15.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wnwbv"]
 atlas = ExtResource("3_y4r1p")
@@ -382,20 +382,19 @@ animations = [{
 
 [node name="Player" unique_id=1222782351 instance=ExtResource("1_g2els")]
 script = ExtResource("2_tuyoq")
-map_width = null
-velocidad = null
-hp = null
-"daño" = null
-JUMP_VELOCITY = null
+map_width = 320.0
+velocidad = 0.0
 
 [node name="CollisionShape2D" parent="." index="0" unique_id=1250328835]
-position = Vector2(-1, -17)
+position = Vector2(-1, -4)
+rotation = 1.5707964
 scale = Vector2(2, 2)
 shape = SubResource("CapsuleShape2D_dqkch")
 
 [node name="AnimatedSprite2D" parent="." index="1" unique_id=237200550]
 sprite_frames = SubResource("SpriteFrames_ke2ow")
-animation = &"attackNoMovement"
+animation = &"idle"
 autoplay = "idle"
-frame = 3
-frame_progress = 1.0
+
+[node name="CooldownTimer" type="Timer" parent="." index="2" unique_id=2083708296]
+wait_time = 0.5

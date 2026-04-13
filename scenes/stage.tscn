@@ -1,7 +1,11 @@
 [gd_scene format=3 uid="uid://vbhvlrf6omj"]
 
 [ext_resource type="PackedScene" uid="uid://17mt5o0yfduo" path="res://scenes/floor_and_background.tscn" id="1_8rem4"]
+[ext_resource type="PackedScene" uid="uid://7dbtvf4525pa" path="res://props/rock.tscn" id="2_gi7kc"]
 
 [node name="stage" type="Node2D" unique_id=898508641]
 
 [node name="floor_and_background" parent="." unique_id=1030397507 instance=ExtResource("1_8rem4")]
+
+[node name="rock" parent="." unique_id=1829547232 instance=ExtResource("2_gi7kc")]
+position = Vector2(236, 168)
