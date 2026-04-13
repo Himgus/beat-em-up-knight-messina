@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://d3438a0jhdyx3"]
+
+[sub_resource type="GDScript" id="GDScript_slwai"]
+script/source = "extends Camera2D
+
+@export var player:CharacterBody2D
+var fixed_y:float
+
+func _ready() -> void:
+	fixed_y=global_position.y
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	global_position.y=fixed_y
+	if player.position.x>position.x:
+		position.x=player.position.x
+"
+
+[node name="Camera2D" type="Camera2D" unique_id=195094999]
+script = SubResource("GDScript_slwai")

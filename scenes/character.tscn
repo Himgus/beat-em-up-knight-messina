@@ -8,6 +8,9 @@ animations = []
 [node name="Character" type="CharacterBody2D" unique_id=1222782351]
 script = ExtResource("1_agfs1")
 velocidad = 10.0
+hp = null
+"daño" = null
+JUMP_VELOCITY = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1250328835]
 
