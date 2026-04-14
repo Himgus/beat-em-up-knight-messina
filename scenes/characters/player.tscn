@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d1ouvd8vaush"]
 
-[ext_resource type="PackedScene" uid="uid://dou1nv6ieu41k" path="res://scenes/character.tscn" id="1_g2els"]
+[ext_resource type="PackedScene" uid="uid://dou1nv6ieu41k" path="res://scenes/characters/character.tscn" id="1_g2els"]
 [ext_resource type="Texture2D" uid="uid://cyct1cbvm0v6p" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Idle.png" id="2_qhqgy"]
 [ext_resource type="Texture2D" uid="uid://60e3ej0rcv20" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Fall.png" id="2_qlg0r"]
 [ext_resource type="Script" uid="uid://cbvfnnj1hlafv" path="res://scripts/player.gd" id="2_tuyoq"]
@@ -380,6 +380,9 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7vyk4"]
+size = Vector2(32, 40)
+
 [node name="Player" unique_id=1222782351 instance=ExtResource("1_g2els")]
 script = ExtResource("2_tuyoq")
 map_width = 320.0
@@ -393,8 +396,18 @@ shape = SubResource("CapsuleShape2D_dqkch")
 
 [node name="AnimatedSprite2D" parent="." index="1" unique_id=237200550]
 sprite_frames = SubResource("SpriteFrames_ke2ow")
-animation = &"idle"
+animation = &"attackNoMovement"
 autoplay = "idle"
 
 [node name="CooldownTimer" type="Timer" parent="." index="2" unique_id=2083708296]
 wait_time = 0.5
+
+[node name="damage_emitter" parent="." index="3" unique_id=1661876966]
+position = Vector2(0, -22)
+collision_mask = 96
+
+[node name="CollisionShape2D" parent="damage_emitter" index="0" unique_id=6924063]
+position = Vector2(29, 0)
+shape = SubResource("RectangleShape2D_7vyk4")
+
+[editable path="damage_emitter"]

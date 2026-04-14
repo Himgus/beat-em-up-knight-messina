@@ -6,7 +6,19 @@ extends CharacterBody2D
 @export var JUMP_VELOCITY:int
 
 enum Estado{IDLE,WALK,ATTACK,ATTACK2,JUMP,FALL,ATTACKNOMOVEMENT}
-var attack_on_cooldown=false
+
+var animacion_map:={
+	Estado.IDLE:"idle",
+	Estado.WALK:"walk",
+	Estado.ATTACK:"attack",
+	Estado.ATTACK2:"attack2",
+	Estado.ATTACKNOMOVEMENT:"attackNoMovement",
+	Estado.JUMP:"jump",
+	Estado.FALL:"fall"
+}
+
+var attack_on_cooldown:bool=false
+var damage_applied:bool=false
 var state=Estado.IDLE
 
 func _ready() -> void:
@@ -19,6 +31,7 @@ func _process(delta: float) -> void:
 	handle_animations()
 	flip_sprites()
 	move_and_slide()
+	handle_damage()
 
 func handle_movement() -> void:
 	if state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.ATTACKNOMOVEMENT:
@@ -43,10 +56,12 @@ func handle_input(delta)->void:
 	if Input.is_action_just_pressed("attack") and !attack_on_cooldown and direccion!=0:
 		state=Estado.ATTACK
 		attack_on_cooldown=true
+		damage_applied=false
 		$CooldownTimer.start()
 	elif Input.is_action_just_pressed("attack") and !attack_on_cooldown and direccion==0:
 		state=Estado.ATTACKNOMOVEMENT
 		attack_on_cooldown=true
+		damage_applied=false
 		$CooldownTimer.start()
 		
 
@@ -67,8 +82,10 @@ func handle_animations()->void:
 func flip_sprites()->void:
 	if velocity.x>0:
 		$AnimatedSprite2D.flip_h=false
+		$damage_emitter.scale.x=1
 	elif velocity.x<0:
 		$AnimatedSprite2D.flip_h=true
+		$damage_emitter.scale.x=-1
 
 func on_animation_finished()->void:
 	if state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.ATTACKNOMOVEMENT:
@@ -81,3 +98,20 @@ func can_attack()->bool:
 	return state==Estado.IDLE or state==Estado.WALK or state==Estado.JUMP or state==Estado.FALL
 func can_move()->bool:
 	return state==Estado.IDLE or state==Estado.WALK or state==Estado.JUMP or state==Estado.FALL
+
+func handle_damage()-> void:
+	if damage_applied:
+		return
+	if ($AnimatedSprite2D.frame==2 or $AnimatedSprite2D.frame==3) and (state==Estado.ATTACK or state==Estado.ATTACKNOMOVEMENT):
+		for area in $damage_emitter.get_overlapping_areas():
+			apply_damage_emitted(area)
+		damage_applied=true
+		
+func apply_damage_emitted(damage_reciever: damage_Reciever)->void:
+	var direccion:Vector2
+	if damage_reciever.global_position.x<global_position.x:
+		direccion=Vector2.LEFT
+	else:
+		direccion=Vector2.RIGHT
+	damage_reciever.damage_recieved.emit(daño, direccion)
+	print(damage_reciever)
