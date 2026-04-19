@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://deq42urkhdge3" path="res://scripts/character.gd" id="1_agfs1"]
 [ext_resource type="PackedScene" uid="uid://dum1mnmcd3qe8" path="res://scenes/colliders/damage_emitter.tscn" id="2_1bdar"]
+[ext_resource type="PackedScene" uid="uid://ogy52psifytk" path="res://scenes/colliders/damage_reciever.tscn" id="3_e22cc"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_agfs1"]
 animations = []
@@ -21,4 +22,7 @@ offset = Vector2(-60, -80)
 [node name="damage_emitter" parent="." unique_id=1661876966 instance=ExtResource("2_1bdar")]
 monitoring = true
 
+[node name="damage_reciever" parent="." unique_id=1597959072 instance=ExtResource("3_e22cc")]
+
 [editable path="damage_emitter"]
+[editable path="damage_reciever"]

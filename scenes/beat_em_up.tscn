@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dvqmq01iqt2et" path="res://scripts/beat_em_up.gd" id="1_ybf1s"]
 [ext_resource type="PackedScene" uid="uid://vbhvlrf6omj" path="res://scenes/stage/stage.tscn" id="2_hflqk"]
 [ext_resource type="PackedScene" uid="uid://d1ouvd8vaush" path="res://scenes/characters/player.tscn" id="3_ybf1s"]
+[ext_resource type="PackedScene" uid="uid://bijsj615ider1" path="res://scenes/characters/enemy.tscn" id="4_57c8x"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ybf1s"]
 size = Vector2(6, 180)
@@ -35,3 +36,8 @@ position = Vector2(320, 90)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/paredes_invisibles/pared_derecha" unique_id=1195373676]
 shape = SubResource("RectangleShape2D_ybf1s")
+
+[node name="Enemy" parent="." unique_id=1222782351 instance=ExtResource("4_57c8x")]
+
+[node name="Enemy2" parent="." unique_id=929257609 instance=ExtResource("4_57c8x")]
+position = Vector2(139, 167)
