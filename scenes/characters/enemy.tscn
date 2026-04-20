@@ -1,11 +1,12 @@
 [gd_scene format=3 uid="uid://bijsj615ider1"]
 
 [ext_resource type="PackedScene" uid="uid://dou1nv6ieu41k" path="res://scenes/characters/character.tscn" id="1_fulqv"]
-[ext_resource type="Texture2D" uid="uid://ca7s244fq5ogf" path="res://assets/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc with shadows/Orc-Idle.png" id="2_fulqv"]
+[ext_resource type="Script" uid="uid://btjueucaac1u4" path="res://scripts/enemy.gd" id="2_0ag5d"]
 [ext_resource type="Texture2D" uid="uid://cfxc2ocbsp1hy" path="res://assets/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc with shadows/orc_shadow_attack.png" id="2_x5khh"]
 [ext_resource type="Texture2D" uid="uid://xgcde4xd36l7" path="res://assets/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc with shadows/orc_shadow_attack2.png" id="3_x5khh"]
-[ext_resource type="Texture2D" uid="uid://ba46ig2c3gmt5" path="res://assets/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc with shadows/Orc-Death.png" id="4_f0ik5"]
-[ext_resource type="Texture2D" uid="uid://btbfp41knpgqj" path="res://assets/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc with shadows/Orc-Hurt.png" id="5_rc7n0"]
+[ext_resource type="Texture2D" uid="uid://cuvla6imkxdkr" path="res://assets/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc with shadows/orc_shadow_death.png" id="4_x5khh"]
+[ext_resource type="Texture2D" uid="uid://bpg5inyucdjyq" path="res://assets/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc with shadows/orc_shadow_hurt.png" id="5_0ag5d"]
+[ext_resource type="Texture2D" uid="uid://cl5jms5spgldo" path="res://assets/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc with shadows/orc_shadow_idle.png" id="6_f0ik5"]
 [ext_resource type="Texture2D" uid="uid://p2tulk1yek1" path="res://assets/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc with shadows/orc_shadow_walk.png" id="7_x5khh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tjfok"]
@@ -57,60 +58,60 @@ atlas = ExtResource("3_x5khh")
 region = Rect2(500, 0, 100, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dtqxl"]
-atlas = ExtResource("4_f0ik5")
-region = Rect2(0, 0, 100, 100)
+atlas = ExtResource("4_x5khh")
+region = Rect2(0, 0, 100, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s0ioa"]
-atlas = ExtResource("4_f0ik5")
-region = Rect2(100, 0, 100, 100)
+atlas = ExtResource("4_x5khh")
+region = Rect2(100, 0, 100, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6ijw3"]
-atlas = ExtResource("4_f0ik5")
-region = Rect2(200, 0, 100, 100)
+atlas = ExtResource("4_x5khh")
+region = Rect2(200, 0, 100, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qhyhi"]
-atlas = ExtResource("4_f0ik5")
-region = Rect2(300, 0, 100, 100)
+atlas = ExtResource("4_x5khh")
+region = Rect2(300, 0, 100, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_34mig"]
-atlas = ExtResource("5_rc7n0")
-region = Rect2(0, 0, 100, 100)
+atlas = ExtResource("5_0ag5d")
+region = Rect2(0, 0, 100, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_chevg"]
-atlas = ExtResource("5_rc7n0")
-region = Rect2(100, 0, 100, 100)
+atlas = ExtResource("5_0ag5d")
+region = Rect2(100, 0, 100, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_flasd"]
-atlas = ExtResource("5_rc7n0")
-region = Rect2(200, 0, 100, 100)
+atlas = ExtResource("5_0ag5d")
+region = Rect2(200, 0, 100, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ochto"]
-atlas = ExtResource("5_rc7n0")
-region = Rect2(300, 0, 100, 100)
+atlas = ExtResource("5_0ag5d")
+region = Rect2(300, 0, 100, 50)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f2e6v"]
-atlas = ExtResource("2_fulqv")
-region = Rect2(0, 0, 100, 100)
+[sub_resource type="AtlasTexture" id="AtlasTexture_5onne"]
+atlas = ExtResource("6_f0ik5")
+region = Rect2(0, 0, 100, 50)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_21x0f"]
-atlas = ExtResource("2_fulqv")
-region = Rect2(100, 0, 100, 100)
+[sub_resource type="AtlasTexture" id="AtlasTexture_nbjqu"]
+atlas = ExtResource("6_f0ik5")
+region = Rect2(100, 0, 100, 50)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_jgk6k"]
-atlas = ExtResource("2_fulqv")
-region = Rect2(200, 0, 100, 100)
+[sub_resource type="AtlasTexture" id="AtlasTexture_7okyh"]
+atlas = ExtResource("6_f0ik5")
+region = Rect2(200, 0, 100, 50)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3k4es"]
-atlas = ExtResource("2_fulqv")
-region = Rect2(300, 0, 100, 100)
+[sub_resource type="AtlasTexture" id="AtlasTexture_lx1t3"]
+atlas = ExtResource("6_f0ik5")
+region = Rect2(300, 0, 100, 50)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_x5khh"]
-atlas = ExtResource("2_fulqv")
-region = Rect2(400, 0, 100, 100)
+[sub_resource type="AtlasTexture" id="AtlasTexture_mblfg"]
+atlas = ExtResource("6_f0ik5")
+region = Rect2(400, 0, 100, 50)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0ag5d"]
-atlas = ExtResource("2_fulqv")
-region = Rect2(500, 0, 100, 100)
+[sub_resource type="AtlasTexture" id="AtlasTexture_s6ib2"]
+atlas = ExtResource("6_f0ik5")
+region = Rect2(500, 0, 100, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d55bs"]
 atlas = ExtResource("7_x5khh")
@@ -224,26 +225,26 @@ animations = [{
 }],
 "loop": false,
 "name": &"hurt",
-"speed": 4.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f2e6v")
+"texture": SubResource("AtlasTexture_5onne")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_21x0f")
+"texture": SubResource("AtlasTexture_nbjqu")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_jgk6k")
+"texture": SubResource("AtlasTexture_7okyh")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_3k4es")
+"texture": SubResource("AtlasTexture_lx1t3")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_x5khh")
+"texture": SubResource("AtlasTexture_mblfg")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0ag5d")
+"texture": SubResource("AtlasTexture_s6ib2")
 }],
 "loop": true,
 "name": &"idle",
@@ -279,18 +280,51 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_x5khh"]
+radius = 2.0
+height = 12.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0ag5d"]
+size = Vector2(12, 25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f0ik5"]
+size = Vector2(8, 8)
+
 [node name="Enemy" unique_id=1222782351 instance=ExtResource("1_fulqv")]
 collision_layer = 4
-collision_mask = 12
-velocidad = 25.0
-hp = 20
-"daño" = 4
+collision_mask = 13
+script = ExtResource("2_0ag5d")
+max_hp = 20
+knockback = 100.0
 
-[node name="AnimatedSprite2D" parent="." index="1" unique_id=237200550]
+[node name="AnimatedSprite2D" parent="." index="0" unique_id=237200550]
 sprite_frames = SubResource("SpriteFrames_f0ik5")
-animation = &"walk"
+animation = &"idle"
 autoplay = "idle"
 offset = Vector2(-50, -50)
+
+[node name="character_collision" parent="." index="1" unique_id=1250328835]
+position = Vector2(1, -11)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_x5khh")
+
+[node name="CooldownTimer" type="Timer" parent="." index="2" unique_id=1005239456]
+wait_time = 0.5
+
+[node name="damage_emitter" parent="." index="3" unique_id=1661876966]
+position = Vector2(0, -17)
+
+[node name="CollisionShape2D" parent="damage_emitter" index="0" unique_id=6924063]
+position = Vector2(17, 0)
+shape = SubResource("RectangleShape2D_0ag5d")
+
+[node name="damage_reciever" parent="." index="4" unique_id=1597959072]
+position = Vector2(0, -18)
+collision_layer = 32
+
+[node name="CollisionShape2D" parent="damage_reciever" index="0" unique_id=197295173]
+position = Vector2(2, 0)
+shape = SubResource("RectangleShape2D_f0ik5")
 
 [editable path="damage_emitter"]
 [editable path="damage_reciever"]

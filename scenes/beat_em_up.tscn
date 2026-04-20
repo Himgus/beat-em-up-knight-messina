@@ -16,8 +16,11 @@ z_index = -1
 
 [node name="Player" parent="." unique_id=531257795 instance=ExtResource("3_ybf1s")]
 position = Vector2(25, 168)
-velocidad = 70.0
-JUMP_VELOCITY = -250
+run_velocity = 200.0
+roll_velocity = 150.0
+jump_attack_velocity = 300.0
+velocidad = 100.0
+JUMP_VELOCITY = -300
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1642670403]
 position = Vector2(160, 90)
@@ -37,7 +40,12 @@ position = Vector2(320, 90)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/paredes_invisibles/pared_derecha" unique_id=1195373676]
 shape = SubResource("RectangleShape2D_ybf1s")
 
-[node name="Enemy" parent="." unique_id=1222782351 instance=ExtResource("4_57c8x")]
+[node name="Enemy" parent="." unique_id=1222782351 node_paths=PackedStringArray("player") instance=ExtResource("4_57c8x")]
+position = Vector2(161, 177)
+player = NodePath("../Player")
+velocidad = 50.0
 
-[node name="Enemy2" parent="." unique_id=929257609 instance=ExtResource("4_57c8x")]
-position = Vector2(139, 167)
+[node name="Enemy2" parent="." unique_id=90545635 node_paths=PackedStringArray("player") instance=ExtResource("4_57c8x")]
+position = Vector2(220, 177)
+player = NodePath("../Player")
+velocidad = 50.0

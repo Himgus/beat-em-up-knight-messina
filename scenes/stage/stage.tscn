@@ -7,5 +7,8 @@
 
 [node name="floor_and_background" parent="." unique_id=1030397507 instance=ExtResource("1_8rem4")]
 
-[node name="rock" parent="." unique_id=1829547232 instance=ExtResource("2_gi7kc")]
-position = Vector2(236, 168)
+[node name="floor_and_background2" parent="." unique_id=256689942 instance=ExtResource("1_8rem4")]
+position = Vector2(320, 0)
+
+[node name="cofre" parent="." unique_id=436069205 instance=ExtResource("2_gi7kc")]
+position = Vector2(497, 168)

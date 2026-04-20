@@ -9,15 +9,14 @@ animations = []
 
 [node name="Character" type="CharacterBody2D" unique_id=1222782351]
 script = ExtResource("1_agfs1")
-velocidad = 10.0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1250328835]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=237200550]
 sprite_frames = SubResource("SpriteFrames_agfs1")
 animation = &""
 centered = false
 offset = Vector2(-60, -80)
+
+[node name="character_collision" type="CollisionShape2D" parent="." unique_id=1250328835]
 
 [node name="damage_emitter" parent="." unique_id=1661876966 instance=ExtResource("2_1bdar")]
 monitoring = true
