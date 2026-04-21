@@ -9,6 +9,9 @@ class_name baseCharacter
 @export var knockback:float
 
 @onready var damage_reciever:Damage_Reciever=$damage_reciever
+@onready var damage_emitter=$damage_emitter
+@onready var cooldown_timer=$CooldownTimer
+@onready var animated_sprite=$AnimatedSprite2D
 
 var attack_on_cooldown:bool=false
 var damage_applied:bool=false
@@ -16,8 +19,8 @@ var current_hp:=0
 
 
 func _ready() -> void:
-	$CooldownTimer.timeout.connect(on_cooldown_timer_timeout)
-	$AnimatedSprite2D.animation_finished.connect(on_animation_finished)
+	cooldown_timer.timeout.connect(on_cooldown_timer_timeout)
+	animated_sprite.animation_finished.connect(on_animation_finished)
 	current_hp=max_hp
 
 func _process(delta: float) -> void:
@@ -42,15 +45,13 @@ func on_animation_finished()->void:
 
 func flip_sprites()->void:
 	if velocity.x>0:
-		$AnimatedSprite2D.flip_h=false
-		$damage_emitter.scale.x=1
+		animated_sprite.flip_h=false
+		damage_emitter.scale.x=1
 		damage_reciever.scale.x=1
-		$character_collision.scale.x=1
 	elif velocity.x<0:
-		$AnimatedSprite2D.flip_h=true
-		$damage_emitter.scale.x=-1
+		animated_sprite.flip_h=true
+		damage_emitter.scale.x=-1
 		damage_reciever.scale.x=-1
-		$character_collision.scale.x=-1
 
 func on_cooldown_timer_timeout()->void:
 	attack_on_cooldown=false

@@ -9,7 +9,7 @@ class_name Player
 
 
 
-enum Estado{IDLE,WALK,ATTACK,ATTACK2,JUMP,FALL,ATTACKNOMOVEMENT,ROLL,TURN_AROUND,RUN,JUMPSPECIFICATTACK,HURT,DEATH}
+enum Estado{IDLE,WALK,ATTACK,ATTACK2,JUMP,FALL,ATTACKNOMOVEMENT,ROLL,TURN_AROUND,RUN,JUMPSPECIFICATTACK,HURT,DEATH,DASH}
 
 var animacion_map:Dictionary={
 	Estado.IDLE: "idle",
@@ -23,7 +23,8 @@ var animacion_map:Dictionary={
 	Estado.RUN: "walk",
 	Estado.JUMPSPECIFICATTACK: "jump_specific_attack",
 	Estado.HURT:"hurt",
-	Estado.DEATH:"death"
+	Estado.DEATH:"death",
+	Estado.DASH:"dash"
 }
 
 var state=Estado.IDLE
@@ -44,7 +45,7 @@ func _process(delta: float) -> void:
 func handle_input(delta)->void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor() and state!=Estado.ROLL:
+	if Input.is_action_just_pressed("ui_accept") and is_on_floor() and state!=Estado.ROLL and state!=Estado.DASH:
 		velocity.y = JUMP_VELOCITY
 		jumped_from_run=state==Estado.RUN
 	var direccion=Input.get_axis("left", "right")
@@ -56,11 +57,16 @@ func handle_input(delta)->void:
 		velocity.x=direccion*run_velocity
 	elif state==Estado.ROLL:
 		velocity.x=last_dir*roll_velocity
+	elif state==Estado.DASH:
+		velocity.x=last_dir*(roll_velocity*1.3)
 	else:
 		velocity.x=direccion*velocidad
 
-	if Input.is_action_just_pressed("roll") and state!=Estado.ROLL and state!=Estado.RUN:
-		state=Estado.ROLL
+	if Input.is_action_just_pressed("roll") and state!=Estado.ROLL and state!=Estado.RUN and state!=Estado.DASH:
+		if is_on_floor():
+			state=Estado.ROLL
+		else:
+			state=Estado.DASH
 
 	if Input.is_action_just_released("roll") and state==Estado.RUN:
 		state=Estado.IDLE
@@ -70,26 +76,26 @@ func handle_input(delta)->void:
 			state=Estado.JUMPSPECIFICATTACK
 			attack_on_cooldown=true
 			damage_applied=false
-			$CooldownTimer.start()
+			cooldown_timer.start()
 		elif is_on_floor() and direccion!=0:
 			state=Estado.ATTACK
 			attack_on_cooldown=true
 			damage_applied=false
-			$CooldownTimer.start()
+			cooldown_timer.start()
 		elif is_on_floor() and direccion==0:
 			state=Estado.ATTACKNOMOVEMENT
 			attack_on_cooldown=true
 			damage_applied=false
-			$CooldownTimer.start()
+			cooldown_timer.start()
 		else:
 			return
 
 func handle_animations()->void:
 	if animacion_map.has(state):
-		$AnimatedSprite2D.play(animacion_map[state])
+		animated_sprite.play(animacion_map[state])
 
 func handle_movement() -> void:
-	if state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.ATTACKNOMOVEMENT or state==Estado.TURN_AROUND or state==Estado.ROLL or state==Estado.JUMPSPECIFICATTACK:
+	if state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.ATTACKNOMOVEMENT or state==Estado.TURN_AROUND or state==Estado.ROLL or state==Estado.JUMPSPECIFICATTACK or state==Estado.DASH:
 		return
 	if state==Estado.RUN:
 		if not is_on_floor() and velocity.y<0:
@@ -114,15 +120,13 @@ func handle_movement() -> void:
 func on_animation_finished()->void:
 	if state==Estado.TURN_AROUND:
 		if pending_flip>0:
-			$AnimatedSprite2D.flip_h=false
-			$damage_emitter.scale.x=1
+			animated_sprite.flip_h=false
+			damage_emitter.scale.x=1
 			damage_reciever.scale.x=1
-			$character_collision.position.x=abs($character_collision.position.x)
 		elif pending_flip<0:
-			$AnimatedSprite2D.flip_h=true
-			$damage_emitter.scale.x=-1
+			animated_sprite.flip_h=true
+			damage_emitter.scale.x=-1
 			damage_reciever.scale.x=-1
-			$character_collision.position.x=-abs($character_collision.position.x)
 		last_dir=pending_flip
 		pending_flip=0.0
 		state=state_after_turn as Estado
@@ -134,15 +138,11 @@ func on_animation_finished()->void:
 		else:
 			state=Estado.IDLE
 		return
+	if state==Estado.DASH:
+		state=Estado.FALL
+		return
 	if state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.ATTACKNOMOVEMENT or state==Estado.JUMPSPECIFICATTACK:
 		state=Estado.IDLE
-
-
-func can_attack()->bool:
-	return state==Estado.IDLE or state==Estado.WALK or state==Estado.JUMP or state==Estado.FALL
-func can_move()->bool:
-	return state==Estado.IDLE or state==Estado.WALK or state==Estado.JUMP or state==Estado.FALL
-	
 
 func flip_sprites()->void:
 	if state==Estado.TURN_AROUND or state==Estado.ROLL or state==Estado.JUMP or state==Estado.FALL:
@@ -167,7 +167,7 @@ func on_recieve_damage(damage:int, direccion:Vector2)->void:
 func handle_damage()-> void:
 	if damage_applied:
 		return
-	if ($AnimatedSprite2D.frame==2 or $AnimatedSprite2D.frame==3) and (state==Estado.ATTACK or state==Estado.ATTACKNOMOVEMENT):
-		for area in $damage_emitter.get_overlapping_areas():
+	if (animated_sprite.frame==2 or animated_sprite.frame==3) and (state==Estado.ATTACK or state==Estado.ATTACKNOMOVEMENT):
+		for area in damage_emitter.get_overlapping_areas():
 			apply_damage_emitted(area)
 		damage_applied=true

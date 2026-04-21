@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://diotm60vwgh3b" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Jump.png" id="4_tuyoq"]
 [ext_resource type="Texture2D" uid="uid://dqs1odydshdsa" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Attack2NoMovement.png" id="5_3v2ag"]
 [ext_resource type="Texture2D" uid="uid://cakhur26pcyce" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_AttackNoMovement.png" id="6_jej6c"]
+[ext_resource type="Texture2D" uid="uid://c60bsnn8ge4he" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Dash.png" id="7_g66nw"]
 [ext_resource type="Texture2D" uid="uid://bahhy0w3i8ruu" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Death.png" id="7_xrqxk"]
 [ext_resource type="Texture2D" uid="uid://d25pvo1x3see2" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Hit.png" id="9_g66nw"]
 [ext_resource type="Texture2D" uid="uid://b2n5ac7skkbs1" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_TurnAround.png" id="10_2l4js"]
@@ -95,6 +96,14 @@ region = Rect2(240, 0, 120, 80)
 [sub_resource type="AtlasTexture" id="AtlasTexture_6e8lb"]
 atlas = ExtResource("6_jej6c")
 region = Rect2(360, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hnvwh"]
+atlas = ExtResource("7_g66nw")
+region = Rect2(0, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rfou0"]
+atlas = ExtResource("7_g66nw")
+region = Rect2(120, 0, 120, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a2luo"]
 atlas = ExtResource("7_xrqxk")
@@ -404,6 +413,17 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_hnvwh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rfou0")
+}],
+"loop": false,
+"name": &"dash",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_a2luo")
 }, {
 "duration": 1.0,
@@ -637,11 +657,11 @@ max_hp = 300
 
 [node name="AnimatedSprite2D" parent="." index="0" unique_id=237200550]
 sprite_frames = SubResource("SpriteFrames_7vyk4")
-animation = &"idle"
+animation = &"dash"
 autoplay = "idle"
 
 [node name="character_collision" parent="." index="1" unique_id=1250328835]
-position = Vector2(-5, -4)
+position = Vector2(0, -4)
 rotation = 1.5707964
 scale = Vector2(2, 2)
 shape = SubResource("CapsuleShape2D_dqkch")

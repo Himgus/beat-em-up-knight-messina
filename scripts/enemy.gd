@@ -20,7 +20,7 @@ var animacion_map:Dictionary={
 
 func _ready() -> void:
 	super()
-	$damage_reciever.damage_recieved.connect(on_recieve_damage.bind())
+	damage_reciever.damage_recieved.connect(on_recieve_damage.bind())
 
 
 func _process(delta: float) -> void:
@@ -42,7 +42,7 @@ func handle_input(_delta: float) -> void:
 
 func handle_animations() -> void:
 	if animacion_map.has(state):
-		$AnimatedSprite2D.play(animacion_map[state])
+		animated_sprite.play(animacion_map[state])
 
 
 func handle_movement() -> void:
@@ -72,14 +72,14 @@ func on_animation_finished()->void:
 func handle_fall(direccion:Vector2)->void:
 	velocity.x=randf_range(100,200)*direccion.x
 	velocity.y=randf_range(-200,-100)
-	$AnimatedSprite2D.flip_h=direccion.x>0
-	$AnimatedSprite2D.rotation=randf_range(-0.5,0.5)
+	animated_sprite.flip_h=direccion.x>0
+	animated_sprite.rotation=randf_range(-0.5,0.5)
 
 
 func handle_damage()-> void:
 	if damage_applied:
 		return
-	if ($AnimatedSprite2D.frame==2 or $AnimatedSprite2D.frame==3) and (state==Estado.ATTACK):
-		for area in $damage_emitter.get_overlapping_areas():
+	if (animated_sprite.frame==2 or animated_sprite.frame==3) and (state==Estado.ATTACK):
+		for area in damage_emitter.get_overlapping_areas():
 			apply_damage_emitted(area)
 		damage_applied=true
