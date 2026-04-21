@@ -409,6 +409,7 @@ tile_map_data = PackedByteArray("AAAAAAcAAAAFAAkAAAABAAcAAAAGAAkAAAACAAcAAAAHAAk
 tile_set = SubResource("TileSet_dexii")
 
 [node name="floor" type="StaticBody2D" parent="TileMapLayer" unique_id=757881717]
+collision_layer = 143
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TileMapLayer/floor" unique_id=115959609]
 position = Vector2(160, 171.5)

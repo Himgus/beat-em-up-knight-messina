@@ -5,9 +5,11 @@ class_name Enemy
 
 enum Estado{IDLE,WALK,DEATH,HURT,ATTACK,ATTACK2}
 
+var player_slot:EnemySlot=null
 var state=Estado.IDLE
 var altura:=0.0
 var altura_velocidad:=0.0
+var knocked_down:bool=false
 
 var animacion_map:Dictionary={
 	Estado.IDLE: "idle",
@@ -32,13 +34,24 @@ func handle_input(_delta: float) -> void:
 		velocity+=get_gravity()*_delta
 	if state==Estado.HURT:
 		return
+	if knocked_down:
+		if is_on_floor():
+			knocked_down=false
+		return
 	if state==Estado.DEATH:
 		if is_on_floor():
 			velocity.x = move_toward(velocity.x, 0, 300 * _delta)
 		return
 	if player!=null:
-		var direccion=sign(player.position.x-position.x)
-		velocity.x=direccion*velocidad
+		if player_slot==null:
+			player_slot=player.reserve_slot(self)
+		if player_slot!=null:
+			var direccion=sign(player_slot.global_position.x-position.x)
+			if abs(player_slot.global_position.x-position.x)<1:
+				velocity=Vector2.ZERO
+			else:
+				velocity.x=direccion*velocidad
+				
 
 func handle_animations() -> void:
 	if animacion_map.has(state):
@@ -46,22 +59,31 @@ func handle_animations() -> void:
 
 
 func handle_movement() -> void:
-	if state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.HURT or state==Estado.DEATH:
+	if state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.HURT or state==Estado.DEATH or knocked_down:
 		return
 	if velocity.length()!=0 and is_on_floor():
 		state=Estado.WALK
 	else:
 		state=Estado.IDLE
 
-func on_recieve_damage(damage:int, direccion:Vector2)->void:
+func on_recieve_damage(damage:int, direccion:Vector2, hit_type:Damage_Reciever.Hit_type)->void:
 	current_hp=clamp(current_hp-damage,0,max_hp)
-	velocity.x=direccion.x*knockback
-	velocity.y=-knockback
 	if current_hp<=0:
 		state=Estado.DEATH
+		player.free_slot(self)
 		handle_fall(direccion)
 	else:
-		state=Estado.HURT
+		match hit_type:
+			Damage_Reciever.Hit_type.KNOCKDOWN:
+				state=Estado.HURT
+				knocked_down=true
+				velocity.x=direccion.x*knockback
+				velocity.y=-knockback
+			Damage_Reciever.Hit_type.POWER:
+				pass
+			_:
+				state=Estado.HURT
+				velocity=Vector2.ZERO
 
 func on_animation_finished()->void:
 	if state==Estado.HURT:
@@ -81,5 +103,5 @@ func handle_damage()-> void:
 		return
 	if (animated_sprite.frame==2 or animated_sprite.frame==3) and (state==Estado.ATTACK):
 		for area in damage_emitter.get_overlapping_areas():
-			apply_damage_emitted(area)
+			apply_damage_emitted(area, Damage_Reciever.Hit_type.NORMAL)
 		damage_applied=true

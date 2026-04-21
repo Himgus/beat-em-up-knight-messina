@@ -58,10 +58,10 @@ func on_cooldown_timer_timeout()->void:
 
 
 
-func apply_damage_emitted(damage_reciever: Damage_Reciever)->void:
+func apply_damage_emitted(reciever: Damage_Reciever, hit_type:Damage_Reciever.Hit_type)->void:
 	var direccion:Vector2
-	if damage_reciever.global_position.x<global_position.x:
+	if reciever.global_position.x<global_position.x:
 		direccion=Vector2.LEFT
 	else:
 		direccion=Vector2.RIGHT
-	damage_reciever.damage_recieved.emit(daño, direccion)
+	reciever.damage_recieved.emit(daño, direccion, hit_type)

@@ -16,6 +16,8 @@
 [ext_resource type="Texture2D" uid="uid://b2n5ac7skkbs1" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_TurnAround.png" id="10_2l4js"]
 [ext_resource type="Texture2D" uid="uid://cumqpc5gcflb8" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Roll.png" id="10_jk2m4"]
 [ext_resource type="Texture2D" uid="uid://bd8jb72el40g" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_CrouchAttack.png" id="10_xhtjm"]
+[ext_resource type="PackedScene" uid="uid://dum1mnmcd3qe8" path="res://scenes/colliders/damage_emitter.tscn" id="17_d6tgn"]
+[ext_resource type="PackedScene" uid="uid://cm6oof7ens1h6" path="res://scenes/characters/enemy_slot.tscn" id="17_rpnd8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wnwbv"]
 atlas = ExtResource("3_y4r1p")
@@ -369,7 +371,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack2",
-"speed": 18.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -643,6 +645,9 @@ height = 12.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7vyk4"]
 size = Vector2(32, 40)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3wg1y"]
+size = Vector2(30, 20)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhtjm"]
 size = Vector2(10, 18)
 
@@ -657,8 +662,10 @@ max_hp = 300
 
 [node name="AnimatedSprite2D" parent="." index="0" unique_id=237200550]
 sprite_frames = SubResource("SpriteFrames_7vyk4")
-animation = &"dash"
+animation = &"jump_specific_attack"
 autoplay = "idle"
+frame = 3
+frame_progress = 1.0
 
 [node name="character_collision" parent="." index="1" unique_id=1250328835]
 position = Vector2(0, -4)
@@ -677,7 +684,15 @@ collision_mask = 96
 position = Vector2(29, 0)
 shape = SubResource("RectangleShape2D_7vyk4")
 
-[node name="damage_reciever" parent="." index="4" unique_id=1597959072]
+[node name="damage_emitter_jump_attack" parent="." index="4" unique_id=641820441 instance=ExtResource("17_d6tgn")]
+position = Vector2(0, -18)
+collision_mask = 96
+
+[node name="CollisionShape2D" parent="damage_emitter_jump_attack" index="0" unique_id=6924063]
+position = Vector2(24, 5)
+shape = SubResource("RectangleShape2D_3wg1y")
+
+[node name="damage_reciever" parent="." index="5" unique_id=1597959072]
 position = Vector2(0, -18)
 collision_layer = 16
 
@@ -685,5 +700,14 @@ collision_layer = 16
 position = Vector2(-4, 0)
 shape = SubResource("RectangleShape2D_xhtjm")
 
+[node name="EnemySlots" type="Node2D" parent="." index="6" unique_id=1112527451]
+
+[node name="EnemySlot" parent="EnemySlots" index="0" unique_id=1760717184 instance=ExtResource("17_rpnd8")]
+position = Vector2(19, 0)
+
+[node name="EnemySlot2" parent="EnemySlots" index="1" unique_id=2133612870 instance=ExtResource("17_rpnd8")]
+position = Vector2(-22, 0)
+
 [editable path="damage_emitter"]
+[editable path="damage_emitter_jump_attack"]
 [editable path="damage_reciever"]
