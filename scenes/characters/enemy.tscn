@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bpg5inyucdjyq" path="res://assets/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc with shadows/orc_shadow_hurt.png" id="5_0ag5d"]
 [ext_resource type="Texture2D" uid="uid://cl5jms5spgldo" path="res://assets/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc with shadows/orc_shadow_idle.png" id="6_f0ik5"]
 [ext_resource type="Texture2D" uid="uid://p2tulk1yek1" path="res://assets/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc with shadows/orc_shadow_walk.png" id="7_x5khh"]
+[ext_resource type="PackedScene" uid="uid://dum1mnmcd3qe8" path="res://scenes/colliders/damage_emitter.tscn" id="9_f0ik5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tjfok"]
 atlas = ExtResource("2_x5khh")
@@ -290,14 +291,16 @@ size = Vector2(12, 25)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f0ik5"]
 size = Vector2(8, 8)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rc7n0"]
+size = Vector2(10, 15)
+
 [node name="Enemy" unique_id=1222782351 instance=ExtResource("1_fulqv")]
 collision_layer = 4
-collision_mask = 12
+collision_mask = 140
 script = ExtResource("2_0ag5d")
-duration_grounded = 1000.0
 velocidad = 30.0
 max_hp = 20
-"daño" = 5
+"daño" = 4
 knockback = 100.0
 
 [node name="AnimatedSprite2D" parent="." index="0" unique_id=237200550]
@@ -329,5 +332,12 @@ collision_layer = 32
 position = Vector2(2, 0)
 shape = SubResource("RectangleShape2D_f0ik5")
 
+[node name="collateral_damage_emitter" parent="." index="5" unique_id=1983747237 instance=ExtResource("9_f0ik5")]
+position = Vector2(0, -17)
+
+[node name="CollisionShape2D" parent="collateral_damage_emitter" index="0" unique_id=6924063]
+shape = SubResource("RectangleShape2D_rc7n0")
+
 [editable path="damage_emitter"]
 [editable path="damage_reciever"]
+[editable path="collateral_damage_emitter"]

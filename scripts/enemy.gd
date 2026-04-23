@@ -3,6 +3,8 @@ class_name Enemy
 
 @export var player:Player
 
+@onready var collateral_damage_emitter:=$collateral_damage_emitter
+
 enum Estado{IDLE,WALK,DEATH,HURT,ATTACK,ATTACK2}
 
 var player_slot:EnemySlot=null
@@ -11,6 +13,10 @@ var altura:=0.0
 var altura_velocidad:=0.0
 var knocked_down:bool=false
 var stun_timer:=0.0
+var wall_launched:bool=false
+var wall_bounce_done:bool=false
+var pre_wall_velocity_x:float=0.0
+var already_hit_collateral:Array=[]
 
 var animacion_map:Dictionary={
 	Estado.IDLE: "idle",
@@ -24,7 +30,7 @@ var animacion_map:Dictionary={
 func _ready() -> void:
 	super()
 	damage_reciever.damage_recieved.connect(on_recieve_damage.bind())
-
+	collateral_damage_emitter.area_entered.connect(on_collateral_area_entered)
 
 func _process(delta: float) -> void:
 	super(delta)
@@ -36,12 +42,32 @@ func handle_input(_delta: float) -> void:
 	if state==Estado.HURT:
 		if stun_timer>0:
 			stun_timer-=_delta
+			damage_reciever.monitorable=false
+		if wall_launched and not wall_bounce_done:
+			if not is_on_wall():
+				pre_wall_velocity_x=velocity.x
+			else:
+				var collision=get_last_slide_collision()
+				if collision and not collision.get_collider() is Enemy:
+					velocity.x=-pre_wall_velocity_x*0.6
+					velocity.y=-knockback*0.3
+					wall_bounce_done=true
 		if is_on_floor():
 			velocity.x=move_toward(velocity.x, 0, 300*_delta)
+			if wall_launched and wall_bounce_done:
+				velocity.x=0
+				wall_launched=false
+				wall_bounce_done=false
+				already_hit_collateral.clear()
+				collateral_damage_emitter.monitoring=false
+			elif knocked_down and wall_bounce_done:
+				knocked_down=false
+				damage_reciever.monitorable=true
 		return
 	if knocked_down:
 		if is_on_floor():
 			knocked_down=false
+			damage_reciever.monitorable=true
 		return
 	if state==Estado.DEATH:
 		if is_on_floor():
@@ -85,11 +111,22 @@ func on_recieve_damage(damage:int, direccion:Vector2, hit_type:Damage_Reciever.H
 				stun_timer=0.5
 				velocity.x=direccion.x*knockback
 				velocity.y=-knockback
+				damage_reciever.monitorable=false
+				print(current_hp)
 			Damage_Reciever.Hit_type.POWER:
 				state=Estado.HURT
-				queue_free()
+				knocked_down=true
+				stun_timer=1.0
+				damage_reciever.monitorable=false
+				wall_launched=true
+				wall_bounce_done=false
+				collateral_damage_emitter.monitoring=true
+				velocity.x=direccion.x*knockback*3
+				velocity.y=-knockback
+				print(current_hp)
 			_:
 				state=Estado.HURT
+				print(current_hp)
 				velocity=Vector2.ZERO
 
 func on_animation_finished()->void:
@@ -113,3 +150,11 @@ func handle_damage()-> void:
 		for area in damage_emitter.get_overlapping_areas():
 			apply_damage_emitted(area, Damage_Reciever.Hit_type.NORMAL)
 		damage_applied=true
+
+
+func on_collateral_area_entered(area:Area2D)->void:
+	if wall_launched and not wall_bounce_done:
+		if area not in already_hit_collateral:
+			already_hit_collateral.append(area)
+			print (area)
+			apply_damage_emitted(area,Damage_Reciever.Hit_type.NORMAL)

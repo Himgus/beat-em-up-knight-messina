@@ -31,12 +31,16 @@ position = Vector2(-160, -90)
 
 [node name="pared_izquierda" type="StaticBody2D" parent="Camera2D/paredes_invisibles" unique_id=2055310498]
 position = Vector2(0, 90)
+collision_layer = 128
+collision_mask = 128
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/paredes_invisibles/pared_izquierda" unique_id=1872695626]
 shape = SubResource("RectangleShape2D_ybf1s")
 
 [node name="pared_derecha" type="StaticBody2D" parent="Camera2D/paredes_invisibles" unique_id=158559908]
 position = Vector2(320, 90)
+collision_layer = 128
+collision_mask = 128
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/paredes_invisibles/pared_derecha" unique_id=1195373676]
 shape = SubResource("RectangleShape2D_ybf1s")
@@ -46,9 +50,9 @@ position = Vector2(303, 177)
 player = NodePath("../Player")
 
 [node name="Enemy2" parent="." unique_id=1738747134 node_paths=PackedStringArray("player") instance=ExtResource("4_57c8x")]
-position = Vector2(204, 177)
+position = Vector2(287, 177)
 player = NodePath("../Player")
 
 [node name="Enemy4" parent="." unique_id=1166627927 node_paths=PackedStringArray("player") instance=ExtResource("4_57c8x")]
-position = Vector2(262, 177)
+position = Vector2(110, 177)
 player = NodePath("../Player")

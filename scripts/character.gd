@@ -64,4 +64,8 @@ func apply_damage_emitted(reciever: Damage_Reciever, hit_type:Damage_Reciever.Hi
 		direccion=Vector2.LEFT
 	else:
 		direccion=Vector2.RIGHT
-	reciever.damage_recieved.emit(daño, direccion, hit_type)
+	if hit_type==Damage_Reciever.Hit_type.POWER:
+		reciever.damage_recieved.emit(daño*2, direccion, hit_type)
+	else:
+		reciever.damage_recieved.emit(daño, direccion, hit_type)
+	

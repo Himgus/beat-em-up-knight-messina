@@ -55,6 +55,7 @@ roll={
 2d_physics/layer_5="PlayerDamageReciever"
 2d_physics/layer_6="EnemyDamageReciever"
 2d_physics/layer_7="DestructibleDamageReciever"
+2d_physics/layer_8="InvisibleWalls"
 
 [physics]
 
