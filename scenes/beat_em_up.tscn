@@ -41,17 +41,14 @@ position = Vector2(320, 90)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/paredes_invisibles/pared_derecha" unique_id=1195373676]
 shape = SubResource("RectangleShape2D_ybf1s")
 
-[node name="Enemy" parent="." unique_id=1222782351 node_paths=PackedStringArray("player") instance=ExtResource("4_57c8x")]
+[node name="Enemy3" parent="." unique_id=2014709575 node_paths=PackedStringArray("player") instance=ExtResource("4_57c8x")]
 position = Vector2(303, 177)
 player = NodePath("../Player")
-velocidad = 40.0
 
 [node name="Enemy2" parent="." unique_id=1738747134 node_paths=PackedStringArray("player") instance=ExtResource("4_57c8x")]
 position = Vector2(204, 177)
 player = NodePath("../Player")
-velocidad = 40.0
 
 [node name="Enemy4" parent="." unique_id=1166627927 node_paths=PackedStringArray("player") instance=ExtResource("4_57c8x")]
 position = Vector2(262, 177)
 player = NodePath("../Player")
-velocidad = 40.0

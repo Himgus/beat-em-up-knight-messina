@@ -7,8 +7,9 @@ class_name Player
 @export var roll_velocity:float
 @export var jump_attack_velocity:float
 
+
 @onready var enemy_slots:Array=$EnemySlots.get_children()
-@onready var damage_emitter_jump_attack:=$damage_emitter
+@onready var damage_emitter_jump_attack:=$damage_emitter_jump_attack
 
 enum Estado{IDLE,WALK,ATTACK,ATTACK2,ATTACKNOMOVEMENT2,JUMP,FALL,ATTACKNOMOVEMENT,ROLL,TURN_AROUND,RUN,JUMPSPECIFICATTACK,HURT,DEATH,DASH}
 
@@ -37,9 +38,11 @@ var last_dir:=1.0
 var pending_flip:float=0.0
 var jumped_from_run:bool=false
 
+
 func _ready() -> void:
 	super()
 	damage_reciever.damage_recieved.connect(on_recieve_damage.bind())
+	animated_sprite.frame_changed.connect(on_frame_changed)
 
 func _process(delta: float) -> void:
 	super(delta)
@@ -80,6 +83,7 @@ func handle_input(delta)->void:
 				state=Estado.JUMPSPECIFICATTACK
 				attack_on_cooldown=true
 				damage_applied=false
+				damage_emitter_jump_attack.scale.x=last_dir
 				cooldown_timer.start()
 			elif is_on_floor() and direccion!=0:
 				state=Estado.ATTACK
@@ -126,9 +130,11 @@ func on_animation_finished()->void:
 		if pending_flip>0:
 			animated_sprite.flip_h=false
 			damage_emitter.scale.x=1
+			damage_emitter_jump_attack.scale.x=1
 			damage_reciever.scale.x=1
 		elif pending_flip<0:
 			animated_sprite.flip_h=true
+			damage_emitter_jump_attack.scale.x=-1
 			damage_emitter.scale.x=-1
 			damage_reciever.scale.x=-1
 		last_dir=pending_flip
@@ -161,7 +167,7 @@ func on_animation_finished()->void:
 			state=Estado.IDLE
 
 func flip_sprites()->void:
-	if state==Estado.TURN_AROUND or state==Estado.ROLL or state==Estado.JUMP or state==Estado.FALL:
+	if state==Estado.TURN_AROUND or state==Estado.ROLL or state==Estado.JUMP or state==Estado.FALL or state==Estado.JUMPSPECIFICATTACK:
 		return
 	if velocity.x>0 and last_dir<0:
 		state_after_turn = state
@@ -191,7 +197,7 @@ func handle_damage()-> void:
 		for area in damage_emitter.get_overlapping_areas():
 			apply_damage_emitted(area, Damage_Reciever.Hit_type.KNOCKDOWN)
 		damage_applied=true
-	if state==Estado.JUMPSPECIFICATTACK and animated_sprite.frame==2:
+	if state==Estado.JUMPSPECIFICATTACK and (animated_sprite.frame==1 or animated_sprite.frame==1 or animated_sprite.frame==2 or animated_sprite.frame==3):
 		for area in damage_emitter_jump_attack.get_overlapping_areas():
 			apply_damage_emitted(area, Damage_Reciever.Hit_type.POWER)
 		damage_applied=true
@@ -219,3 +225,13 @@ func free_slot(enemy:Enemy)->void:
 	)
 	if target_slots.size()==1:
 		target_slots[0].free_slot()
+
+func on_frame_changed()->void:
+	if state==Estado.ROLL:
+		damage_reciever.monitoring=animated_sprite.frame not in [2,3,4,5,6,7,8,9]
+		print("iframes roll")
+	elif state==Estado.DASH:
+		damage_reciever.monitoring=false
+		print("iframes dash")
+	else:
+		damage_reciever.monitoring=true

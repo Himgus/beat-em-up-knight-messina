@@ -662,10 +662,8 @@ max_hp = 300
 
 [node name="AnimatedSprite2D" parent="." index="0" unique_id=237200550]
 sprite_frames = SubResource("SpriteFrames_7vyk4")
-animation = &"jump_specific_attack"
+animation = &"roll"
 autoplay = "idle"
-frame = 3
-frame_progress = 1.0
 
 [node name="character_collision" parent="." index="1" unique_id=1250328835]
 position = Vector2(0, -4)
@@ -687,6 +685,7 @@ shape = SubResource("RectangleShape2D_7vyk4")
 [node name="damage_emitter_jump_attack" parent="." index="4" unique_id=641820441 instance=ExtResource("17_d6tgn")]
 position = Vector2(0, -18)
 collision_mask = 96
+monitoring = true
 
 [node name="CollisionShape2D" parent="damage_emitter_jump_attack" index="0" unique_id=6924063]
 position = Vector2(24, 5)

@@ -10,6 +10,7 @@ var state=Estado.IDLE
 var altura:=0.0
 var altura_velocidad:=0.0
 var knocked_down:bool=false
+var stun_timer:=0.0
 
 var animacion_map:Dictionary={
 	Estado.IDLE: "idle",
@@ -33,6 +34,10 @@ func handle_input(_delta: float) -> void:
 	if not is_on_floor():
 		velocity+=get_gravity()*_delta
 	if state==Estado.HURT:
+		if stun_timer>0:
+			stun_timer-=_delta
+		if is_on_floor():
+			velocity.x=move_toward(velocity.x, 0, 300*_delta)
 		return
 	if knocked_down:
 		if is_on_floor():
@@ -77,17 +82,20 @@ func on_recieve_damage(damage:int, direccion:Vector2, hit_type:Damage_Reciever.H
 			Damage_Reciever.Hit_type.KNOCKDOWN:
 				state=Estado.HURT
 				knocked_down=true
+				stun_timer=0.5
 				velocity.x=direccion.x*knockback
 				velocity.y=-knockback
 			Damage_Reciever.Hit_type.POWER:
-				pass
+				state=Estado.HURT
+				queue_free()
 			_:
 				state=Estado.HURT
 				velocity=Vector2.ZERO
 
 func on_animation_finished()->void:
 	if state==Estado.HURT:
-		state=Estado.IDLE
+		if stun_timer<=0:
+			state=Estado.IDLE
 	elif state==Estado.DEATH:
 		queue_free()
 

@@ -22,12 +22,18 @@ func _process(delta: float) -> void:
 	cofres.position=Vector2.UP*altura
 	handle_air_time(delta)
 	
-func on_recieve_damage(damage:int, direccion:Vector2)->void:
+func on_recieve_damage(damage:int, direccion:Vector2, hit_type:Damage_Reciever.Hit_type)->void:
 	if state==Estado.IDLE:
 		cofres.frame=2
-		altura_velocidad=knockback
 		state=Estado.OPEN
-		velocidad=direccion*knockback
+		match hit_type:
+			Damage_Reciever.Hit_type.NORMAL:
+				altura_velocidad=knockback/2
+				velocidad=direccion*(knockback/2)
+			_:
+				altura_velocidad=knockback
+				velocidad=direccion*knockback
+
 
 func handle_air_time(delta:float)->void:
 	if state==Estado.OPEN:
