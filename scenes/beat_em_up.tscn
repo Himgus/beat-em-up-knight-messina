@@ -30,12 +30,12 @@ player = NodePath("../../Player")
 z_index = -1
 
 [node name="Player" parent="." unique_id=531257795 instance=ExtResource("3_ybf1s")]
-position = Vector2(25, 168)
+position = Vector2(34, 168)
 run_velocity = 200.0
 roll_velocity = 150.0
 jump_attack_velocity = 300.0
 velocidad = 100.0
-"daño" = 20
+"daño" = 5
 JUMP_VELOCITY = -300
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1642670403]

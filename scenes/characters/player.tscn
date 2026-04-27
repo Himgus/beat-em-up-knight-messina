@@ -682,12 +682,12 @@ jump_attack_velocity = 0.0
 skill1 = ExtResource("3_3wg1y")
 skill2 = ExtResource("4_kmyvj")
 skill3 = ExtResource("5_a2luo")
-max_hp = 20
+max_hp = 30
 "daño" = 4
 
 [node name="AnimatedSprite2D" parent="." index="0" unique_id=237200550]
 sprite_frames = SubResource("SpriteFrames_7vyk4")
-animation = &"idle"
+animation = &"attack"
 autoplay = "idle"
 
 [node name="character_collision" parent="." index="1" unique_id=1250328835]

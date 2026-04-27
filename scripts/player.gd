@@ -206,7 +206,8 @@ func on_animation_finished()->void:
 		damage_reciever.monitoring=true
 		return
 	if state==Estado.DEATH:
-		queue_free()
+		sfx_death.play()
+		get_tree().change_scene_to_file("res://scenes/death_screen.tscn")
 		return
 	if state==Estado.ATTACK or state==Estado.ATTACKNOMOVEMENT or state==Estado.ATTACK2 or state==Estado.ATTACKNOMOVEMENT2 or state==Estado.JUMPSPECIFICATTACK:
 		if attack2_queued and state==Estado.ATTACK:

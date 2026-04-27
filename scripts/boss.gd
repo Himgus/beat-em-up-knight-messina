@@ -76,7 +76,7 @@ func _make_decision()->void:
 		_do_attack()
 		if not attack_on_cooldown:
 			attack2_queued=true
-	elif dist<200:
+	elif dist<350:
 		chase_player=true
 		var roll=randf()
 		if roll<0.6:
@@ -143,7 +143,10 @@ func handle_input(delta)->void:
 	elif state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.ATTACKNOMOVEMENT or state==Estado.ATTACKNOMOVEMENT2:
 		velocity.x=0
 	elif chase_player:
-		velocity.x=dir_to_player*velocidad
+		if _dist_to_player() > 10:
+			velocity.x=dir_to_player*velocidad
+		else:
+			velocity.x=0
 	else:
 		velocity.x=move_toward(velocity.x,0,velocidad)
 
@@ -157,11 +160,10 @@ func handle_movement()->void:
 	if state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.ATTACKNOMOVEMENT or state==Estado.TURN_AROUND or state==Estado.ROLL or state==Estado.JUMPSPECIFICATTACK or state==Estado.DASH or state==Estado.ATTACKNOMOVEMENT2 or state==Estado.HURT or state==Estado.DEATH:
 		return
 	if jumped_from_run:
-		if not is_on_floor() and velocity.y<0:
-			state=Estado.JUMP
-		elif not is_on_floor() and velocity.y>0:
-			state=Estado.FALL
-		elif is_on_floor():
+		if not is_on_floor():
+			if velocity.y<0:
+				state=Estado.JUMP
+		elif is_on_floor() and velocity.y>=0:
 			jumped_from_run=false
 			state=Estado.IDLE
 		return
@@ -259,10 +261,13 @@ func handle_damage()->void:
 		for area in damage_emitter.get_overlapping_areas():
 			apply_damage_emitted(area,Damage_Reciever.Hit_type.KNOCKDOWN)
 		damage_applied=true
-	if state==Estado.JUMPSPECIFICATTACK and (animated_sprite.frame==1 or animated_sprite.frame==2 or animated_sprite.frame==3):
-		for area in damage_emitter_jump_attack.get_overlapping_areas():
-			apply_damage_emitted(area,Damage_Reciever.Hit_type.POWER)
-		damage_applied=true
+	if state==Estado.JUMPSPECIFICATTACK:
+		print("jump attack frame: ", animated_sprite.frame, " overlaps: ", damage_emitter_jump_attack.get_overlapping_areas())
+		var areas = damage_emitter_jump_attack.get_overlapping_areas()
+		if areas.size() > 0:
+			for area in areas:
+				apply_damage_emitted(area, Damage_Reciever.Hit_type.POWER)
+			damage_applied=true
 
 func on_frame_changed()->void:
 	if not is_inside_tree():

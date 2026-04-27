@@ -5,9 +5,9 @@ extends CanvasLayer
 var player:Player
 
 func _ready() -> void:
-	print(player)
+	pass
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if player==null:
 		return
 	if player.skills_active:

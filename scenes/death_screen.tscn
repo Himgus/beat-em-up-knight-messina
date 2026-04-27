@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://j7cg4xqyvjt0"]
+
+[ext_resource type="Script" uid="uid://crmxqpha727i7" path="res://scripts/win_screen.gd" id="1_dwo6e"]
+[ext_resource type="FontFile" uid="uid://uvx7rkmp2ngy" path="res://assets/font/alagard.ttf" id="1_uyutr"]
+
+[node name="death_screen" type="CanvasLayer" unique_id=1019833398]
+script = ExtResource("1_dwo6e")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=827813079]
+offset_right = 320.0
+offset_bottom = 180.0
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="." unique_id=2141771666]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -49.0
+offset_top = 19.0
+offset_right = 49.0
+offset_bottom = 43.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_uyutr")
+theme_override_font_sizes/font_size = 25
+text = "Derrota!"
+
+[node name="Button" type="Button" parent="." unique_id=1182298733]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.5
+offset_top = 29.5
+offset_right = 60.5
+offset_bottom = 52.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_uyutr")
+text = "Menu principal"
+
+[connection signal="pressed" from="Button" to="." method="_on_menu_button_pressed"]
