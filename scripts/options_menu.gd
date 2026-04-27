@@ -15,6 +15,6 @@ func _on_btn_musica_pressed()->void:
 
 func _update_button_text()->void:
 	if Global.musica:
-		music_button.text= "Music: ON"
+		music_button.text="Music: ON"
 	else:
 		music_button.text="Music: OFF"

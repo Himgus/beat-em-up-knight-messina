@@ -6,7 +6,7 @@ func _ready() -> void:
 	Global.play_track(preload("res://assets/Minifantasy_Dungeon_Music/Music/Goblins_Den_(Regular).wav"))
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 

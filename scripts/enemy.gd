@@ -172,7 +172,6 @@ func handle_damage()-> void:
 		return
 	if state==Estado.ATTACK and (animated_sprite.animation=="attack"):
 		if (animated_sprite.frame==3 or animated_sprite.frame==4):
-			print("checking overlaps: ", damage_emitter.get_overlapping_areas())
 			for area in damage_emitter.get_overlapping_areas():
 				apply_damage_emitted(area, Damage_Reciever.Hit_type.NORMAL)
 			damage_applied=true
@@ -188,7 +187,6 @@ func on_collateral_area_entered(area:Area2D)->void:
 		return
 	if area not in already_hit_collateral and area is Damage_Reciever:
 		already_hit_collateral.append(area)
-		print (area)
 		apply_damage_emitted(area,Damage_Reciever.Hit_type.KNOCKDOWN)
 		
 func flip_sprites()->void:

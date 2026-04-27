@@ -244,7 +244,6 @@ func flip_sprites()->void:
 
 
 func on_recieve_damage(damage:int, _direccion:Vector2, hit_type:Damage_Reciever.Hit_type)->void:
-	print("player hit for: ", damage, " hp: ", current_hp)
 	current_hp=clamp(current_hp-damage,0,max_hp)
 	if current_hp<=0:
 		sfx_death.play()
@@ -347,7 +346,6 @@ func spawn_power_attack_effect()->void:
 func on_skill_hit(daño_hecho:int)->void:
 	var recoil=ceili(daño_hecho*0.5)
 	current_hp=clamp(current_hp-recoil,0,max_hp)
-	print("player recoil damage: ", recoil, " hp: ", current_hp)
 	if current_hp<0:
 		state=Estado.DEATH
 

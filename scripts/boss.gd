@@ -262,7 +262,6 @@ func handle_damage()->void:
 			apply_damage_emitted(area,Damage_Reciever.Hit_type.KNOCKDOWN)
 		damage_applied=true
 	if state==Estado.JUMPSPECIFICATTACK:
-		print("jump attack frame: ", animated_sprite.frame, " overlaps: ", damage_emitter_jump_attack.get_overlapping_areas())
 		var areas = damage_emitter_jump_attack.get_overlapping_areas()
 		if areas.size() > 0:
 			for area in areas:

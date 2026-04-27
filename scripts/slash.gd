@@ -6,7 +6,6 @@ var hit_type:int
 var already_hit:Array=[]
 var on_hit:Callable
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	animated_sprite.animation_finished.connect(_on_default_terminado)
 	animated_sprite.frame_changed.connect(_on_frame_changed)
