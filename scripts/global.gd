@@ -6,6 +6,11 @@ var music_player:=AudioStreamPlayer.new()
 func _ready()->void:
 	add_child(music_player)
 	music_player.bus="Music"
+	music_player.finished.connect(_on_music_finished)
+
+func _on_music_finished()->void:
+	if musica:
+		music_player.play()
 
 func set_music(enabled: bool)->void:
 	musica = enabled
