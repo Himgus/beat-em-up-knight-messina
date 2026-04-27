@@ -266,6 +266,8 @@ size = Vector2(8, 10)
 size = Vector2(10, 15)
 
 [node name="archer" unique_id=1222782351 instance=ExtResource("1_ei7oo")]
+collision_layer = 4
+collision_mask = 140
 script = ExtResource("2_cvspa")
 shot_interval = 5.0
 arrow = ExtResource("3_e1vds")

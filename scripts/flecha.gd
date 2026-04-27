@@ -13,7 +13,6 @@ var velocity:Vector2=Vector2.ZERO
 var already_hit:Array=[]
 
 func launch(dir:float,archer:Archer)->void:
-	print(sprite)
 	direction=dir
 	shooter=archer
 	var initial_vy=-sqrt(2.0*gravity_strength*arch_height)
@@ -24,7 +23,6 @@ func launch(dir:float,archer:Archer)->void:
 func _process(delta:float)->void:
 	velocity.y+=gravity_strength*delta
 	global_position+=velocity*delta
-	print("arrow pos: ", global_position)
 	if global_position.y>1000:
 		queue_free()
 

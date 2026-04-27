@@ -671,7 +671,7 @@ max_hp = 20
 
 [node name="AnimatedSprite2D" parent="." index="0" unique_id=237200550]
 sprite_frames = SubResource("SpriteFrames_7vyk4")
-animation = &"death"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="character_collision" parent="." index="1" unique_id=1250328835]

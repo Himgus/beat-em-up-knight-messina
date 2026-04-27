@@ -5,6 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://cltwg3nq777v0" path="res://scenes/hud.tscn" id="2_j36kn"]
 [ext_resource type="PackedScene" uid="uid://d1ouvd8vaush" path="res://scenes/characters/player.tscn" id="3_ybf1s"]
 [ext_resource type="PackedScene" uid="uid://ccd2a5ft6tuls" path="res://scenes/characters/archer.tscn" id="6_0gncr"]
+[ext_resource type="PackedScene" uid="uid://bijsj615ider1" path="res://scenes/characters/enemy.tscn" id="6_ebpxy"]
+[ext_resource type="PackedScene" uid="uid://tu1bp0djhymv" path="res://scenes/characters/boss_helper.tscn" id="7_ebpxy"]
+[ext_resource type="PackedScene" uid="uid://cxlklsqplvu4e" path="res://scenes/characters/boss.tscn" id="8_8m026"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ybf1s"]
 size = Vector2(6, 180)
@@ -23,11 +26,8 @@ run_velocity = 200.0
 roll_velocity = 150.0
 jump_attack_velocity = 300.0
 velocidad = 100.0
+"daño" = 20
 JUMP_VELOCITY = -300
-
-[node name="archer" parent="." unique_id=1222782351 node_paths=PackedStringArray("player") instance=ExtResource("6_0gncr")]
-position = Vector2(174, 171)
-player = NodePath("../Player")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1642670403]
 position = Vector2(160, 90)
@@ -50,3 +50,45 @@ collision_mask = 128
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/paredes_invisibles/pared_derecha" unique_id=1195373676]
 shape = SubResource("RectangleShape2D_ybf1s")
+
+[node name="Section2Enemies" type="Node2D" parent="." unique_id=1207824839]
+
+[node name="Enemy" parent="Section2Enemies" unique_id=1355660957 instance=ExtResource("6_ebpxy")]
+position = Vector2(537, 177)
+
+[node name="Enemy2" parent="Section2Enemies" unique_id=716982174 instance=ExtResource("6_ebpxy")]
+position = Vector2(408, 177)
+
+[node name="Section4Enemies" type="Node2D" parent="." unique_id=1308176328]
+
+[node name="Enemy" parent="Section4Enemies" unique_id=1222782351 instance=ExtResource("6_ebpxy")]
+position = Vector2(1023, 177)
+
+[node name="Enemy2" parent="Section4Enemies" unique_id=21057365 instance=ExtResource("6_ebpxy")]
+position = Vector2(1114, 177)
+
+[node name="archer" parent="Section4Enemies" unique_id=1148146634 instance=ExtResource("6_0gncr")]
+position = Vector2(1214, 171)
+
+[node name="Section6Enemies" type="Node2D" parent="." unique_id=894437865]
+
+[node name="archer" parent="Section6Enemies" unique_id=184139493 instance=ExtResource("6_0gncr")]
+position = Vector2(1897, 171)
+
+[node name="archer2" parent="Section6Enemies" unique_id=1482389363 instance=ExtResource("6_0gncr")]
+position = Vector2(1761, 171)
+
+[node name="Enemy" parent="Section6Enemies" unique_id=1702667962 instance=ExtResource("6_ebpxy")]
+position = Vector2(1841, 177)
+
+[node name="Enemy2" parent="Section6Enemies" unique_id=25185288 instance=ExtResource("6_ebpxy")]
+position = Vector2(1684, 177)
+
+[node name="BossSectionEnemies" type="Node2D" parent="." unique_id=149156136]
+
+[node name="Boss_helper" parent="BossSectionEnemies" unique_id=1657099224 instance=ExtResource("7_ebpxy")]
+visible = false
+position = Vector2(2257, 168)
+
+[node name="Boss" parent="BossSectionEnemies" unique_id=2045970804 instance=ExtResource("8_8m026")]
+position = Vector2(2352, 168)

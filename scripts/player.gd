@@ -74,6 +74,8 @@ func handle_input(delta)->void:
 		velocity.x=last_dir*roll_velocity
 	elif state==Estado.DASH:
 		velocity.x=last_dir*(roll_velocity*1.3)
+	elif state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.ATTACKNOMOVEMENT or state==Estado.ATTACKNOMOVEMENT2:
+		velocity.x=direccion*velocidad*0.3
 	else:
 		velocity.x=direccion*velocidad
 
@@ -191,6 +193,8 @@ func on_animation_finished()->void:
 func flip_sprites()->void:
 	if state==Estado.TURN_AROUND or state==Estado.ROLL or state==Estado.JUMP or state==Estado.FALL or state==Estado.JUMPSPECIFICATTACK:
 		return
+	if state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.ATTACKNOMOVEMENT or state==Estado.ATTACKNOMOVEMENT2:
+		return
 	if velocity.x>0 and last_dir<0:
 		state_after_turn = state
 		state=Estado.TURN_AROUND
@@ -227,7 +231,7 @@ func handle_damage()-> void:
 		damage_applied=true
 
 
-func reserve_slot(enemy:Enemy)->EnemySlot:
+func reserve_slot(enemy:Node)->EnemySlot:
 	var available_slots:=enemy_slots.filter(func(slot):return slot.is_free())
 	
 	if available_slots.size()==0:
@@ -243,7 +247,7 @@ func reserve_slot(enemy:Enemy)->EnemySlot:
 	return available_slots[0]
 
 
-func free_slot(enemy:Enemy)->void:
+func free_slot(enemy:Node)->void:
 	var target_slots:=enemy_slots.filter(
 		func(slot:EnemySlot):return slot.occupant==enemy
 	)

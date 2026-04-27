@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dv1mq0fd2sgsk" path="res://scenes/props/cofre.gd" id="1_s3df6"]
 [ext_resource type="Texture2D" uid="uid://okk4i5u2q67t" path="res://assets/chestsAll.png" id="2_s3df6"]
 [ext_resource type="PackedScene" uid="uid://ogy52psifytk" path="res://scenes/colliders/damage_reciever.tscn" id="3_41x60"]
+[ext_resource type="PackedScene" uid="uid://dum1mnmcd3qe8" path="res://scenes/colliders/damage_emitter.tscn" id="4_0xrin"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ql3cj"]
 size = Vector2(16, 16)
@@ -10,10 +11,14 @@ size = Vector2(16, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s3df6"]
 size = Vector2(32, 24)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_41x60"]
+size = Vector2(40, 20)
+
 [node name="cofre" type="StaticBody2D" unique_id=436069205]
 collision_layer = 9
 script = ExtResource("1_s3df6")
 knockback = 200.0
+damage = 2
 
 [node name="cofres" type="Sprite2D" parent="." unique_id=2011139318]
 scale = Vector2(2, 2)
@@ -47,4 +52,14 @@ color = Color(0, 0, 0, 0.5019608)
 position = Vector2(0, -12)
 shape = SubResource("RectangleShape2D_s3df6")
 
+[node name="damage_emitter" parent="." unique_id=1661876966 instance=ExtResource("4_0xrin")]
+position = Vector2(0, -12)
+collision_mask = 32
+monitoring = true
+monitorable = true
+
+[node name="CollisionShape2D" parent="damage_emitter" index="0" unique_id=6924063]
+shape = SubResource("RectangleShape2D_41x60")
+
 [editable path="damage_reciever"]
+[editable path="damage_emitter"]

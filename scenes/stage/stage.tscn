@@ -1,6 +1,18 @@
 [gd_scene format=3 uid="uid://vbhvlrf6omj"]
 
 [ext_resource type="PackedScene" uid="uid://17mt5o0yfduo" path="res://scenes/stage/floor_and_background.tscn" id="1_8rem4"]
+[ext_resource type="PackedScene" uid="uid://7dbtvf4525pa" path="res://scenes/props/rock.tscn" id="2_erodg"]
+[ext_resource type="PackedScene" uid="uid://bv70awe6u4uiv" path="res://scenes/stage/boss_floor_and_background.tscn" id="2_gygk3"]
+[ext_resource type="Texture2D" uid="uid://ct4t6r8uh4hdo" path="res://assets/oak_woods_v1.0/decorations/grass_1.png" id="3_ljyi0"]
+[ext_resource type="Texture2D" uid="uid://bi440yq66m1wy" path="res://assets/oak_woods_v1.0/decorations/grass_3.png" id="4_kb6yy"]
+[ext_resource type="Texture2D" uid="uid://db3rwig55ggrl" path="res://assets/oak_woods_v1.0/decorations/grass_2.png" id="5_uutle"]
+[ext_resource type="Texture2D" uid="uid://dk5h063x17re6" path="res://assets/oak_woods_v1.0/decorations/rock_1.png" id="6_cwi0x"]
+[ext_resource type="Texture2D" uid="uid://dgqxc4dueqf1a" path="res://assets/oak_woods_v1.0/decorations/rock_3.png" id="7_lrsvv"]
+[ext_resource type="Texture2D" uid="uid://c3fta3068h1hk" path="res://assets/oak_woods_v1.0/decorations/fence_1.png" id="8_gygk3"]
+[ext_resource type="Texture2D" uid="uid://csc8wgr2o72ne" path="res://assets/oak_woods_v1.0/decorations/rock_2.png" id="9_cwi0x"]
+[ext_resource type="Texture2D" uid="uid://iwde4i2hpw7m" path="res://assets/oak_woods_v1.0/decorations/lamp.png" id="9_kb6yy"]
+[ext_resource type="Texture2D" uid="uid://cobcbjkwvpbf8" path="res://assets/oak_woods_v1.0/decorations/sign.png" id="10_lrsvv"]
+[ext_resource type="Texture2D" uid="uid://bwvq8u6rkewnt" path="res://assets/oak_woods_v1.0/decorations/fence_2.png" id="12_lrsvv"]
 
 [node name="stage" type="Node2D" unique_id=898508641]
 
@@ -8,3 +20,180 @@
 
 [node name="floor_and_background2" parent="." unique_id=256689942 instance=ExtResource("1_8rem4")]
 position = Vector2(320, 0)
+
+[node name="floor_and_background3" parent="." unique_id=1979473722 instance=ExtResource("1_8rem4")]
+position = Vector2(640, 0)
+
+[node name="floor_and_background4" parent="." unique_id=2087813398 instance=ExtResource("1_8rem4")]
+position = Vector2(960, 0)
+
+[node name="floor_and_background5" parent="." unique_id=1380900349 instance=ExtResource("1_8rem4")]
+position = Vector2(1280, 0)
+
+[node name="floor_and_background6" parent="." unique_id=1824073308 instance=ExtResource("1_8rem4")]
+position = Vector2(1600, 0)
+
+[node name="boss_floor_and_background" parent="." unique_id=1255300432 instance=ExtResource("2_gygk3")]
+position = Vector2(1920, 0)
+
+[node name="boss_floor_and_background2" parent="." unique_id=249745060 instance=ExtResource("2_gygk3")]
+position = Vector2(2240, 0)
+
+[node name="Grass1" type="Sprite2D" parent="." unique_id=1212202624]
+position = Vector2(86, 166)
+texture = ExtResource("3_ljyi0")
+
+[node name="Grass3" type="Sprite2D" parent="." unique_id=294912205]
+position = Vector2(155, 166)
+texture = ExtResource("4_kb6yy")
+
+[node name="Grass2" type="Sprite2D" parent="." unique_id=599168445]
+position = Vector2(218, 165)
+texture = ExtResource("5_uutle")
+
+[node name="Rock1" type="Sprite2D" parent="." unique_id=84863143]
+position = Vector2(193, 162)
+texture = ExtResource("6_cwi0x")
+
+[node name="Rock3" type="Sprite2D" parent="." unique_id=2131739550]
+position = Vector2(503, 159)
+texture = ExtResource("7_lrsvv")
+
+[node name="Fence1" type="Sprite2D" parent="." unique_id=382281682]
+position = Vector2(751, 159)
+texture = ExtResource("8_gygk3")
+
+[node name="Grass4" type="Sprite2D" parent="." unique_id=635199795]
+position = Vector2(711, 166)
+texture = ExtResource("4_kb6yy")
+
+[node name="Grass5" type="Sprite2D" parent="." unique_id=1721487333]
+position = Vector2(789, 167)
+texture = ExtResource("3_ljyi0")
+
+[node name="Grass6" type="Sprite2D" parent="." unique_id=557362420]
+position = Vector2(757, 166)
+texture = ExtResource("5_uutle")
+
+[node name="Grass7" type="Sprite2D" parent="." unique_id=1195645031]
+position = Vector2(736, 166)
+texture = ExtResource("4_kb6yy")
+
+[node name="Grass8" type="Sprite2D" parent="." unique_id=372594254]
+position = Vector2(770, 167)
+texture = ExtResource("3_ljyi0")
+
+[node name="Lamp" type="Sprite2D" parent="." unique_id=1901134934]
+position = Vector2(1151, 140)
+texture = ExtResource("9_kb6yy")
+
+[node name="Rock2" type="Sprite2D" parent="." unique_id=1742972789]
+position = Vector2(1090, 162)
+texture = ExtResource("6_cwi0x")
+
+[node name="Rock4" type="Sprite2D" parent="." unique_id=1490122544]
+position = Vector2(1344, 162)
+texture = ExtResource("9_cwi0x")
+
+[node name="Sign" type="Sprite2D" parent="." unique_id=1028548805]
+position = Vector2(1552, 153)
+texture = ExtResource("10_lrsvv")
+
+[node name="Grass9" type="Sprite2D" parent="." unique_id=1808825091]
+position = Vector2(1362, 166)
+texture = ExtResource("4_kb6yy")
+
+[node name="Grass10" type="Sprite2D" parent="." unique_id=1746610558]
+position = Vector2(1327, 167)
+texture = ExtResource("3_ljyi0")
+
+[node name="Grass11" type="Sprite2D" parent="." unique_id=128282854]
+position = Vector2(1464, 166)
+texture = ExtResource("5_uutle")
+
+[node name="Grass12" type="Sprite2D" parent="." unique_id=12375510]
+position = Vector2(1546, 167)
+texture = ExtResource("3_ljyi0")
+
+[node name="Grass13" type="Sprite2D" parent="." unique_id=1595945413]
+position = Vector2(1561, 167)
+texture = ExtResource("4_kb6yy")
+
+[node name="Grass14" type="Sprite2D" parent="." unique_id=521654430]
+position = Vector2(1260, 166)
+texture = ExtResource("5_uutle")
+
+[node name="Grass15" type="Sprite2D" parent="." unique_id=2015003207]
+position = Vector2(1081, 167)
+texture = ExtResource("3_ljyi0")
+
+[node name="Grass16" type="Sprite2D" parent="." unique_id=399712874]
+position = Vector2(1101, 167)
+texture = ExtResource("5_uutle")
+
+[node name="Grass17" type="Sprite2D" parent="." unique_id=790904801]
+position = Vector2(1166, 167)
+texture = ExtResource("4_kb6yy")
+
+[node name="Grass18" type="Sprite2D" parent="." unique_id=1469932659]
+position = Vector2(1142, 166)
+texture = ExtResource("5_uutle")
+
+[node name="Grass19" type="Sprite2D" parent="." unique_id=1277596077]
+position = Vector2(1159, 167)
+texture = ExtResource("3_ljyi0")
+
+[node name="Fence2" type="Sprite2D" parent="." unique_id=705492281]
+position = Vector2(1811, 159)
+texture = ExtResource("12_lrsvv")
+
+[node name="Grass20" type="Sprite2D" parent="." unique_id=997764975]
+position = Vector2(1772, 167)
+texture = ExtResource("3_ljyi0")
+
+[node name="Grass21" type="Sprite2D" parent="." unique_id=1670310534]
+position = Vector2(1781, 166)
+texture = ExtResource("5_uutle")
+
+[node name="Grass22" type="Sprite2D" parent="." unique_id=1889938246]
+position = Vector2(1847, 166)
+texture = ExtResource("4_kb6yy")
+
+[node name="Grass23" type="Sprite2D" parent="." unique_id=489290950]
+position = Vector2(1840, 166)
+texture = ExtResource("5_uutle")
+
+[node name="Grass24" type="Sprite2D" parent="." unique_id=1694128184]
+position = Vector2(1669, 167)
+texture = ExtResource("3_ljyi0")
+
+[node name="Grass25" type="Sprite2D" parent="." unique_id=880259122]
+position = Vector2(1594, 166)
+texture = ExtResource("5_uutle")
+
+[node name="Grass26" type="Sprite2D" parent="." unique_id=693090337]
+position = Vector2(1719, 167)
+texture = ExtResource("4_kb6yy")
+
+[node name="Grass27" type="Sprite2D" parent="." unique_id=494132520]
+position = Vector2(1898, 167)
+texture = ExtResource("3_ljyi0")
+
+[node name="cofre" parent="." unique_id=436069205 instance=ExtResource("2_erodg")]
+position = Vector2(476, 168)
+
+[node name="Lamp2" type="Sprite2D" parent="." unique_id=1399313368]
+position = Vector2(2203, 139)
+texture = ExtResource("9_kb6yy")
+
+[node name="Rock5" type="Sprite2D" parent="." unique_id=1288979383]
+position = Vector2(2321, 159)
+texture = ExtResource("7_lrsvv")
+
+[node name="Rock6" type="Sprite2D" parent="." unique_id=98954653]
+position = Vector2(2076, 162)
+texture = ExtResource("9_cwi0x")
+
+[node name="Sign2" type="Sprite2D" parent="." unique_id=1731172093]
+position = Vector2(2545, 153)
+texture = ExtResource("10_lrsvv")
