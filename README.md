@@ -1,4 +1,4 @@
-Hola profe! Disculpa por seguir actualizando el juego hasta hoy, no medí bien el tiempo y me atrase mucho. Esto es lo que quedó.
+Hola profe! Disculpa por seguir actualizando el juego hasta hoy, no medí bien el tiempo y me atrase mucho. Esto es lo que quedó, cambie un montón desde el objetivo original mas que nada por la falta de sprites.
 
 Controles:
 AD - moverse
