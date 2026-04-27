@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://ykrv2n6cmfmn"]
+[gd_scene format=3 uid="uid://kxanll7bplep"]
 
 [ext_resource type="Script" uid="uid://cawumva4bflor" path="res://scripts/slash.gd" id="1_0y267"]
 [ext_resource type="Texture2D" uid="uid://b3014de0l7xwd" path="res://assets/Pixel Art Animations - Warrior (FREE)/VFX 1/Frames/warrior_skill1_frame1.png" id="2_5ywho"]
@@ -6,6 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://b8p4tnge84a61" path="res://assets/Pixel Art Animations - Warrior (FREE)/VFX 1/Frames/warrior_skill1_frame3.png" id="4_rg84j"]
 [ext_resource type="Texture2D" uid="uid://rl8hw5fklyc7" path="res://assets/Pixel Art Animations - Warrior (FREE)/VFX 1/Frames/warrior_skill1_frame4.png" id="5_ssaf7"]
 [ext_resource type="Texture2D" uid="uid://ca0qvy87h8eba" path="res://assets/Pixel Art Animations - Warrior (FREE)/VFX 1/Frames/warrior_skill1_frame5.png" id="6_hb67j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ywho"]
+size = Vector2(75, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sdhwi"]
 atlas = ExtResource("2_5ywho")
@@ -51,9 +54,15 @@ animations = [{
 }]
 
 [node name="slash_habilidad1" type="Area2D" unique_id=90841278]
+scale = Vector2(0.5, 0.5)
+collision_layer = 0
+collision_mask = 32
 script = ExtResource("1_0y267")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=956048440]
+position = Vector2(5.5, 0)
+shape = SubResource("RectangleShape2D_5ywho")
+debug_color = Color(0.9109178, 0.278932, 0.26928785, 0.41960785)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1306433510]
 sprite_frames = SubResource("SpriteFrames_g5lwi")

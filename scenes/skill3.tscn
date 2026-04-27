@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://ckt1qhogevglm"]
+
+[ext_resource type="Texture2D" uid="uid://byun2bh0vk0t3" path="res://assets/Pixel Art Animations - Warrior (FREE)/VFX 4/Frames/warrior_skill4_frame1.png" id="1_vhk6k"]
+[ext_resource type="Script" uid="uid://d1fetyu562xsj" path="res://scripts/skill_3.gd" id="1_x2qq1"]
+[ext_resource type="Texture2D" uid="uid://dp60cn86uyufw" path="res://assets/Pixel Art Animations - Warrior (FREE)/VFX 4/Frames/warrior_skill4_frame2.png" id="2_x2qq1"]
+[ext_resource type="Texture2D" uid="uid://bshc02qilv1sx" path="res://assets/Pixel Art Animations - Warrior (FREE)/VFX 4/Frames/warrior_skill4_frame3.png" id="3_83db7"]
+[ext_resource type="Texture2D" uid="uid://csgtgbhgpvmtu" path="res://assets/Pixel Art Animations - Warrior (FREE)/VFX 4/Frames/warrior_skill4_frame4.png" id="4_dniyu"]
+[ext_resource type="Texture2D" uid="uid://i342spuwx3vr" path="res://assets/Pixel Art Animations - Warrior (FREE)/VFX 4/Frames/warrior_skill4_frame5.png" id="5_7ijhd"]
+[ext_resource type="Texture2D" uid="uid://dr3o1e6mrsq61" path="res://assets/Pixel Art Animations - Warrior (FREE)/VFX 4/Frames/warrior_skill4_frame6.png" id="6_haijm"]
+[ext_resource type="Texture2D" uid="uid://n3wk00m7x7s7" path="res://assets/Pixel Art Animations - Warrior (FREE)/VFX 4/Frames/warrior_skill4_frame7.png" id="7_rc73y"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vhk6k"]
+size = Vector2(86, 118)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_658pa"]
+atlas = ExtResource("1_vhk6k")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0sbml"]
+atlas = ExtResource("2_x2qq1")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uonub"]
+atlas = ExtResource("3_83db7")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tvnyl"]
+atlas = ExtResource("4_dniyu")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7u28s"]
+atlas = ExtResource("5_7ijhd")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kj4fa"]
+atlas = ExtResource("6_haijm")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xfd7d"]
+atlas = ExtResource("7_rc73y")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8d65w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_658pa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0sbml")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uonub")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tvnyl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7u28s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kj4fa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xfd7d")
+}],
+"loop": false,
+"name": &"default",
+"speed": 12.0
+}]
+
+[node name="skill3" type="Area2D" unique_id=381891654]
+scale = Vector2(0.5, 0.5)
+collision_layer = 0
+collision_mask = 32
+script = ExtResource("1_x2qq1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1951402667]
+position = Vector2(-4, -4)
+shape = SubResource("RectangleShape2D_vhk6k")
+debug_color = Color(0.9087225, 0.28392288, 0.25854924, 0.41960785)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2006614389]
+rotation = 1.5707964
+sprite_frames = SubResource("SpriteFrames_8d65w")

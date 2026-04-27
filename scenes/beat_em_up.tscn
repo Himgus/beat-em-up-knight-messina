@@ -2,14 +2,17 @@
 
 [ext_resource type="Script" uid="uid://dvqmq01iqt2et" path="res://scripts/beat_em_up.gd" id="1_ybf1s"]
 [ext_resource type="PackedScene" uid="uid://vbhvlrf6omj" path="res://scenes/stage/stage.tscn" id="2_hflqk"]
+[ext_resource type="PackedScene" uid="uid://cltwg3nq777v0" path="res://scenes/hud.tscn" id="2_j36kn"]
 [ext_resource type="PackedScene" uid="uid://d1ouvd8vaush" path="res://scenes/characters/player.tscn" id="3_ybf1s"]
-[ext_resource type="PackedScene" uid="uid://bijsj615ider1" path="res://scenes/characters/enemy.tscn" id="4_57c8x"]
+[ext_resource type="PackedScene" uid="uid://ccd2a5ft6tuls" path="res://scenes/characters/archer.tscn" id="6_0gncr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ybf1s"]
 size = Vector2(6, 180)
 
 [node name="BeatEmUp" type="Node2D" unique_id=1005472158]
 script = ExtResource("1_ybf1s")
+
+[node name="hud" parent="." unique_id=1034062637 instance=ExtResource("2_j36kn")]
 
 [node name="stage" parent="." unique_id=898508641 instance=ExtResource("2_hflqk")]
 z_index = -1
@@ -20,8 +23,11 @@ run_velocity = 200.0
 roll_velocity = 150.0
 jump_attack_velocity = 300.0
 velocidad = 100.0
-"daño" = 1
 JUMP_VELOCITY = -300
+
+[node name="archer" parent="." unique_id=1222782351 node_paths=PackedStringArray("player") instance=ExtResource("6_0gncr")]
+position = Vector2(174, 171)
+player = NodePath("../Player")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1642670403]
 position = Vector2(160, 90)
@@ -44,15 +50,3 @@ collision_mask = 128
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/paredes_invisibles/pared_derecha" unique_id=1195373676]
 shape = SubResource("RectangleShape2D_ybf1s")
-
-[node name="Enemy3" parent="." unique_id=2014709575 node_paths=PackedStringArray("player") instance=ExtResource("4_57c8x")]
-position = Vector2(303, 177)
-player = NodePath("../Player")
-
-[node name="Enemy2" parent="." unique_id=1738747134 node_paths=PackedStringArray("player") instance=ExtResource("4_57c8x")]
-position = Vector2(287, 177)
-player = NodePath("../Player")
-
-[node name="Enemy4" parent="." unique_id=1166627927 node_paths=PackedStringArray("player") instance=ExtResource("4_57c8x")]
-position = Vector2(110, 177)
-player = NodePath("../Player")

@@ -2,10 +2,12 @@ extends baseCharacter
 class_name Enemy
 
 @export var player:Player
+@export var duration_between_hits:int
+@export var duration_prep_hit:int
 
 @onready var collateral_damage_emitter:=$collateral_damage_emitter
 
-enum Estado{IDLE,WALK,DEATH,HURT,ATTACK,ATTACK2}
+enum Estado{IDLE,WALK,DEATH,HURT,ATTACK,ATTACK2,PREPATTACK}
 
 var player_slot:EnemySlot=null
 var state=Estado.IDLE
@@ -17,6 +19,8 @@ var wall_launched:bool=false
 var wall_bounce_done:bool=false
 var pre_wall_velocity_x:float=0.0
 var already_hit_collateral:Array=[]
+var time_since_last_hit:=Time.get_ticks_msec()
+var time_since_prep_hit:=Time.get_ticks_msec()
 
 var animacion_map:Dictionary={
 	Estado.IDLE: "idle",
@@ -25,12 +29,14 @@ var animacion_map:Dictionary={
 	Estado.HURT: "hurt",
 	Estado.ATTACK: "attack",
 	Estado.ATTACK2: "attack2",
+	Estado.PREPATTACK:"idle"
 }
 
 func _ready() -> void:
 	super()
 	damage_reciever.damage_recieved.connect(on_recieve_damage.bind())
 	collateral_damage_emitter.area_entered.connect(on_collateral_area_entered)
+	animated_sprite.frame_changed.connect(on_frame_changed)
 
 func _process(delta: float) -> void:
 	super(delta)
@@ -78,19 +84,25 @@ func handle_input(_delta: float) -> void:
 			player_slot=player.reserve_slot(self)
 		if player_slot!=null:
 			var direccion=sign(player_slot.global_position.x-position.x)
-			if abs(player_slot.global_position.x-position.x)<1:
+			if player_on_range():
 				velocity=Vector2.ZERO
+				if can_attack():
+					state=Estado.PREPATTACK
+					time_since_prep_hit=Time.get_ticks_msec()
 			else:
 				velocity.x=direccion*velocidad
-				
+		
+
 
 func handle_animations() -> void:
 	if animacion_map.has(state):
 		animated_sprite.play(animacion_map[state])
 
+func player_on_range()->bool:
+	return abs(player_slot.global_position.x-position.x)<1
 
 func handle_movement() -> void:
-	if state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.HURT or state==Estado.DEATH or knocked_down:
+	if state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.HURT or state==Estado.DEATH or state==Estado.PREPATTACK or knocked_down:
 		return
 	if velocity.length()!=0 and is_on_floor():
 		state=Estado.WALK
@@ -135,6 +147,8 @@ func on_animation_finished()->void:
 			state=Estado.IDLE
 	elif state==Estado.DEATH:
 		queue_free()
+	elif state==Estado.ATTACK:
+		state=Estado.IDLE
 
 func handle_fall(direccion:Vector2)->void:
 	velocity.x=randf_range(100,200)*direccion.x
@@ -146,15 +160,50 @@ func handle_fall(direccion:Vector2)->void:
 func handle_damage()-> void:
 	if damage_applied:
 		return
-	if (animated_sprite.frame==2 or animated_sprite.frame==3) and (state==Estado.ATTACK):
-		for area in damage_emitter.get_overlapping_areas():
-			apply_damage_emitted(area, Damage_Reciever.Hit_type.NORMAL)
-		damage_applied=true
+	if state==Estado.ATTACK and (animated_sprite.animation=="attack"):
+		if (animated_sprite.frame==3 or animated_sprite.frame==4):
+			print("checking overlaps: ", damage_emitter.get_overlapping_areas())
+			for area in damage_emitter.get_overlapping_areas():
+				apply_damage_emitted(area, Damage_Reciever.Hit_type.NORMAL)
+			damage_applied=true
 
 
 func on_collateral_area_entered(area:Area2D)->void:
-	if wall_launched and not wall_bounce_done:
-		if area not in already_hit_collateral:
-			already_hit_collateral.append(area)
-			print (area)
-			apply_damage_emitted(area,Damage_Reciever.Hit_type.NORMAL)
+	if not wall_launched or wall_bounce_done:
+		return
+	if not area is Damage_Reciever:
+		return
+	if area==damage_reciever:
+		return
+	if area not in already_hit_collateral and area is Damage_Reciever:
+		already_hit_collateral.append(area)
+		print (area)
+		apply_damage_emitted(area,Damage_Reciever.Hit_type.KNOCKDOWN)
+		
+func flip_sprites()->void:
+	if player==null or state==Estado.DEATH:
+		return
+	var facing_right=player.global_position.x>global_position.x
+	animated_sprite.flip_h=!facing_right
+	if facing_right:
+		damage_emitter.scale.x=1
+		damage_reciever.scale.x=1
+	else:
+		damage_emitter.scale.x=-1
+		damage_reciever.scale.x=-1
+		
+func can_attack()->bool:
+	if Time.get_ticks_msec()-time_since_last_hit<duration_between_hits:
+		return false
+	else:
+		return is_on_floor() and state!=Estado.HURT and state!=Estado.DEATH and state!=Estado.ATTACK and state!=Estado.PREPATTACK
+
+func handle_prep_attack()->void:
+	if state==Estado.PREPATTACK and (Time.get_ticks_msec()-time_since_prep_hit>duration_prep_hit):
+		state=Estado.ATTACK
+		time_since_last_hit=Time.get_ticks_msec()
+		damage_applied=false
+		
+func on_frame_changed() -> void:
+	if state == Estado.ATTACK and animated_sprite.frame == 0:
+		damage_applied = false

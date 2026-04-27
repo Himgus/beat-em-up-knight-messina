@@ -6,9 +6,13 @@ class_name Player
 @export var run_velocity:float
 @export var roll_velocity:float
 @export var jump_attack_velocity:float
+@export var skill1:PackedScene
+@export var skill2:PackedScene
+@export var skill3:PackedScene
 
 
 @onready var enemy_slots:Array=$EnemySlots.get_children()
+@onready var archer_slots:Array=$ArcherSlots.get_children()
 @onready var damage_emitter_jump_attack:=$damage_emitter_jump_attack
 
 enum Estado{IDLE,WALK,ATTACK,ATTACK2,ATTACKNOMOVEMENT2,JUMP,FALL,ATTACKNOMOVEMENT,ROLL,TURN_AROUND,RUN,JUMPSPECIFICATTACK,HURT,DEATH,DASH}
@@ -37,6 +41,7 @@ var state_after_turn:int=Estado.IDLE
 var last_dir:=1.0
 var pending_flip:float=0.0
 var jumped_from_run:bool=false
+var skills_active:bool=false
 
 
 func _ready() -> void:
@@ -51,6 +56,10 @@ func _process(delta: float) -> void:
 func handle_input(delta)->void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+	if state==Estado.HURT or state==Estado.DEATH:
+		return
+	if Input.is_action_just_pressed("toggle_skills"):
+		skills_active=not skills_active
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor() and state!=Estado.ROLL and state!=Estado.DASH:
 		velocity.y = JUMP_VELOCITY
 		jumped_from_run=state==Estado.RUN
@@ -85,6 +94,7 @@ func handle_input(delta)->void:
 				damage_applied=false
 				damage_emitter_jump_attack.scale.x=last_dir
 				cooldown_timer.start()
+				spawn_power_attack_effect()
 			elif is_on_floor() and direccion!=0:
 				state=Estado.ATTACK
 				attack_on_cooldown=true
@@ -100,10 +110,12 @@ func handle_input(delta)->void:
 
 func handle_animations()->void:
 	if animacion_map.has(state):
-		animated_sprite.play(animacion_map[state])
+		var anim=animacion_map[state]
+		if animated_sprite.animation!=anim or not animated_sprite.is_playing():
+			animated_sprite.play(anim)
 
 func handle_movement() -> void:
-	if state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.ATTACKNOMOVEMENT or state==Estado.TURN_AROUND or state==Estado.ROLL or state==Estado.JUMPSPECIFICATTACK or state==Estado.DASH or state==Estado.ATTACKNOMOVEMENT2:
+	if state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.ATTACKNOMOVEMENT or state==Estado.TURN_AROUND or state==Estado.ROLL or state==Estado.JUMPSPECIFICATTACK or state==Estado.DASH or state==Estado.ATTACKNOMOVEMENT2 or state==Estado.HURT or state==Estado.DEATH:
 		return
 	if state==Estado.RUN:
 		if not is_on_floor() and velocity.y<0:
@@ -151,17 +163,27 @@ func on_animation_finished()->void:
 	if state==Estado.DASH:
 		state=Estado.FALL
 		return
+	if state==Estado.HURT:
+		state=Estado.IDLE
+		damage_reciever.monitoring=true
+		return
+	if state==Estado.DEATH:
+		print("player queue_free called")
+		queue_free()
+		return
 	if state==Estado.ATTACK or state==Estado.ATTACKNOMOVEMENT or state==Estado.ATTACK2 or state==Estado.ATTACKNOMOVEMENT2 or state==Estado.JUMPSPECIFICATTACK:
 		if attack2_queued and state==Estado.ATTACK:
 			state=Estado.ATTACK2
 			attack2_queued=false
 			damage_applied=false
 			cooldown_timer.start()
+			spawn_attack2_effect()
 		elif attack2_queued and state==Estado.ATTACKNOMOVEMENT:
 			state=Estado.ATTACKNOMOVEMENT2
 			attack2_queued=false
 			damage_applied=false
 			cooldown_timer.start()
+			spawn_attack2_effect()
 		else:
 			attack2_queued=false
 			state=Estado.IDLE
@@ -180,11 +202,13 @@ func flip_sprites()->void:
 
 
 func on_recieve_damage(damage:int, _direccion:Vector2, hit_type:Damage_Reciever.Hit_type)->void:
+	print("player hit for: ", damage, " hp: ", current_hp)
 	current_hp=clamp(current_hp-damage,0,max_hp)
 	if current_hp<=0:
 		state=Estado.DEATH
 	else:
 		state=Estado.HURT
+		velocity.x=0
 
 func handle_damage()-> void:
 	if damage_applied:
@@ -226,8 +250,30 @@ func free_slot(enemy:Enemy)->void:
 	if target_slots.size()==1:
 		target_slots[0].free_slot()
 
+func reserve_archer_slot(archer:Archer)->ArcherSlot:
+	var available:=archer_slots.filter(func(slot):return slot.is_free())
+	if available.size()==0:
+		return null
+	available.sort_custom(
+		func(a:ArcherSlot,b:ArcherSlot):
+			var dist_a=(archer.global_position-a.global_position).length()
+			var dist_b=(archer.global_position-b.global_position).length()
+			return dist_a<dist_b
+	)
+	available[0].take_slot(archer)
+	return available[0]
+
+func free_archer_slot(archer: Archer) -> void:
+	var target:=archer_slots.filter(
+		func(slot:ArcherSlot):return slot.occupant==archer
+	)
+	if target.size()==1:
+		target[0].free_slot()
+
 func on_frame_changed()->void:
-	if state==Estado.ROLL:
+	if not is_inside_tree():
+		return
+	if state==Estado.ROLL or state==Estado.HURT or state==Estado.DEATH:
 		damage_reciever.monitoring=animated_sprite.frame not in [2,3,4,5,6,7,8,9]
 		print("iframes roll")
 	elif state==Estado.DASH:
@@ -235,3 +281,40 @@ func on_frame_changed()->void:
 		print("iframes dash")
 	else:
 		damage_reciever.monitoring=true
+
+
+func spawn_power_attack_effect()->void:
+	if skill1==null or skill2==null or not skills_active:
+		return
+	var effect=skill1.instantiate()
+	effect.player=self
+	effect.hit_type=Damage_Reciever.Hit_type.KNOCKDOWN
+	effect.on_hit=on_skill_hit
+	get_parent().add_child(effect)
+	effect.global_position=global_position+Vector2(-last_dir*32,0)
+	await get_tree().create_timer(0.2).timeout
+	if is_inside_tree():
+		var effect2=skill2.instantiate()
+		effect2.player=self
+		effect2.hit_type=Damage_Reciever.Hit_type.KNOCKDOWN
+		effect2.on_hit=on_skill_hit
+		get_parent().add_child(effect2)
+		effect2.global_position=global_position+Vector2(-last_dir*32,0)
+
+func on_skill_hit(daño_hecho:int)->void:
+	var recoil=ceili(daño_hecho*0.5)
+	current_hp=clamp(current_hp-recoil,0,max_hp)
+	print("player recoil damage: ", recoil, " hp: ", current_hp)
+	if current_hp<0:
+		state=Estado.DEATH
+
+func spawn_attack2_effect()->void:
+	if skill3==null or not skills_active:
+		return
+	var effect=skill3.instantiate()
+	effect.player=self
+	effect.hit_type=Damage_Reciever.Hit_type.NORMAL
+	effect.direction=last_dir
+	effect.on_hit=on_skill_hit
+	get_parent().add_child(effect)
+	effect.global_position=global_position+Vector2(last_dir*48,-20)

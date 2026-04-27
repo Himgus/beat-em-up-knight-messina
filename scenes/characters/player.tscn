@@ -4,11 +4,14 @@
 [ext_resource type="Texture2D" uid="uid://cyct1cbvm0v6p" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Idle.png" id="2_qhqgy"]
 [ext_resource type="Texture2D" uid="uid://60e3ej0rcv20" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Fall.png" id="2_qlg0r"]
 [ext_resource type="Script" uid="uid://cbvfnnj1hlafv" path="res://scripts/player.gd" id="2_tuyoq"]
+[ext_resource type="PackedScene" uid="uid://kxanll7bplep" path="res://scenes/slash_habilidad1.tscn" id="3_3wg1y"]
 [ext_resource type="Texture2D" uid="uid://dbw1k7jddx45q" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Run.png" id="3_qhqgy"]
 [ext_resource type="Texture2D" uid="uid://bcpxh1nmwl16g" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Attack.png" id="3_y4r1p"]
 [ext_resource type="Texture2D" uid="uid://gguwvrx58n1q" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Attack2.png" id="4_d2wvv"]
+[ext_resource type="PackedScene" uid="uid://bj34wdcuddom6" path="res://scenes/slash_habilidad_2.tscn" id="4_kmyvj"]
 [ext_resource type="Texture2D" uid="uid://diotm60vwgh3b" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Jump.png" id="4_tuyoq"]
 [ext_resource type="Texture2D" uid="uid://dqs1odydshdsa" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Attack2NoMovement.png" id="5_3v2ag"]
+[ext_resource type="PackedScene" uid="uid://ckt1qhogevglm" path="res://scenes/skill3.tscn" id="5_a2luo"]
 [ext_resource type="Texture2D" uid="uid://cakhur26pcyce" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_AttackNoMovement.png" id="6_jej6c"]
 [ext_resource type="Texture2D" uid="uid://c60bsnn8ge4he" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Dash.png" id="7_g66nw"]
 [ext_resource type="Texture2D" uid="uid://bahhy0w3i8ruu" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Death.png" id="7_xrqxk"]
@@ -18,6 +21,7 @@
 [ext_resource type="Texture2D" uid="uid://bd8jb72el40g" path="res://assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_CrouchAttack.png" id="10_xhtjm"]
 [ext_resource type="PackedScene" uid="uid://dum1mnmcd3qe8" path="res://scenes/colliders/damage_emitter.tscn" id="17_d6tgn"]
 [ext_resource type="PackedScene" uid="uid://cm6oof7ens1h6" path="res://scenes/characters/enemy_slot.tscn" id="17_rpnd8"]
+[ext_resource type="PackedScene" uid="uid://dcmi40e5m321w" path="res://scenes/characters/archer_slot.tscn" id="22_eir2k"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wnwbv"]
 atlas = ExtResource("3_y4r1p")
@@ -477,7 +481,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_v1y1o")
 }],
-"loop": true,
+"loop": false,
 "name": &"hurt",
 "speed": 3.0
 }, {
@@ -659,12 +663,15 @@ map_width = 320.0
 run_velocity = 0.0
 roll_velocity = 0.0
 jump_attack_velocity = 0.0
-max_hp = 300
-"daño" = 20
+skill1 = ExtResource("3_3wg1y")
+skill2 = ExtResource("4_kmyvj")
+skill3 = ExtResource("5_a2luo")
+max_hp = 20
+"daño" = 4
 
 [node name="AnimatedSprite2D" parent="." index="0" unique_id=237200550]
 sprite_frames = SubResource("SpriteFrames_7vyk4")
-animation = &"roll"
+animation = &"death"
 autoplay = "idle"
 
 [node name="character_collision" parent="." index="1" unique_id=1250328835]
@@ -704,10 +711,18 @@ shape = SubResource("RectangleShape2D_xhtjm")
 [node name="EnemySlots" type="Node2D" parent="." index="6" unique_id=1112527451]
 
 [node name="EnemySlot" parent="EnemySlots" index="0" unique_id=1760717184 instance=ExtResource("17_rpnd8")]
-position = Vector2(19, 0)
+position = Vector2(21, 0)
 
 [node name="EnemySlot2" parent="EnemySlots" index="1" unique_id=2133612870 instance=ExtResource("17_rpnd8")]
-position = Vector2(-22, 0)
+position = Vector2(-21, 0)
+
+[node name="ArcherSlots" type="Node2D" parent="." index="7" unique_id=431281883]
+
+[node name="archer_slot" parent="ArcherSlots" index="0" unique_id=61059762 instance=ExtResource("22_eir2k")]
+position = Vector2(80, 0)
+
+[node name="archer_slot2" parent="ArcherSlots" index="1" unique_id=416090429 instance=ExtResource("22_eir2k")]
+position = Vector2(100, 0)
 
 [editable path="damage_emitter"]
 [editable path="damage_emitter_jump_attack"]

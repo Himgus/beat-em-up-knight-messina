@@ -289,7 +289,7 @@ height = 12.0
 size = Vector2(12, 25)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f0ik5"]
-size = Vector2(8, 8)
+size = Vector2(8, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rc7n0"]
 size = Vector2(10, 15)
@@ -298,6 +298,8 @@ size = Vector2(10, 15)
 collision_layer = 4
 collision_mask = 140
 script = ExtResource("2_0ag5d")
+duration_between_hits = 2000
+duration_prep_hit = 500
 velocidad = 30.0
 max_hp = 20
 "daño" = 4
@@ -305,20 +307,21 @@ knockback = 100.0
 
 [node name="AnimatedSprite2D" parent="." index="0" unique_id=237200550]
 sprite_frames = SubResource("SpriteFrames_f0ik5")
-animation = &"idle"
+animation = &"attack"
 autoplay = "idle"
 offset = Vector2(-50, -50)
 
 [node name="character_collision" parent="." index="1" unique_id=1250328835]
-position = Vector2(1, -11)
+position = Vector2(0, -11)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_x5khh")
 
 [node name="CooldownTimer" type="Timer" parent="." index="2" unique_id=1005239456]
-wait_time = 0.5
+wait_time = 1.5
 
 [node name="damage_emitter" parent="." index="3" unique_id=1661876966]
 position = Vector2(0, -17)
+collision_mask = 16
 
 [node name="CollisionShape2D" parent="damage_emitter" index="0" unique_id=6924063]
 position = Vector2(17, 0)
@@ -329,11 +332,12 @@ position = Vector2(0, -18)
 collision_layer = 32
 
 [node name="CollisionShape2D" parent="damage_reciever" index="0" unique_id=197295173]
-position = Vector2(2, 0)
+position = Vector2(1, 0)
 shape = SubResource("RectangleShape2D_f0ik5")
 
 [node name="collateral_damage_emitter" parent="." index="5" unique_id=1983747237 instance=ExtResource("9_f0ik5")]
 position = Vector2(0, -17)
+collision_mask = 32
 
 [node name="CollisionShape2D" parent="collateral_damage_emitter" index="0" unique_id=6924063]
 shape = SubResource("RectangleShape2D_rc7n0")

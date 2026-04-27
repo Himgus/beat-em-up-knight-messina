@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dcmi40e5m321w"]
+
+[ext_resource type="Script" uid="uid://co7c7a8csji80" path="res://scripts/archer_slot.gd" id="1_4gy7j"]
+
+[node name="archer_slot" type="Node2D" unique_id=61059762]
+script = ExtResource("1_4gy7j")

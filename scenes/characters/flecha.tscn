@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://c04h31eq1uipf"]
+
+[ext_resource type="Script" uid="uid://b56ycnd7a8bbw" path="res://scripts/flecha.gd" id="1_u40gt"]
+[ext_resource type="Texture2D" uid="uid://buk1ln12i61ss" path="res://assets/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Arrow(Projectile)/Arrow01(32x32).png" id="1_vatgc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u40gt"]
+size = Vector2(19, 7)
+
+[node name="flecha" type="Area2D" unique_id=1745687091]
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("1_u40gt")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1422901875]
+texture = ExtResource("1_vatgc")
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1070081650]
+position = Vector2(16.5, 16.5)
+shape = SubResource("RectangleShape2D_u40gt")
+debug_color = Color(0.88417053, 0.3100681, 0.3318971, 0.41960785)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

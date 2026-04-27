@@ -27,6 +27,7 @@ func _process(delta: float) -> void:
 	handle_input(delta)
 	handle_movement()
 	handle_animations()
+	handle_prep_attack()
 	handle_damage()
 	flip_sprites()
 	move_and_slide()
@@ -41,6 +42,9 @@ func handle_damage() -> void:
 	pass
 
 func on_animation_finished()->void:
+	pass
+
+func handle_prep_attack()->void:
 	pass
 
 func flip_sprites()->void:
@@ -58,14 +62,14 @@ func on_cooldown_timer_timeout()->void:
 
 
 
-func apply_damage_emitted(reciever: Damage_Reciever, hit_type:Damage_Reciever.Hit_type)->void:
+func apply_damage_emitted(reciever: Damage_Reciever, hit_type:Damage_Reciever.Hit_type, multiplier:float=1.0)->void:
 	var direccion:Vector2
 	if reciever.global_position.x<global_position.x:
 		direccion=Vector2.LEFT
 	else:
 		direccion=Vector2.RIGHT
 	if hit_type==Damage_Reciever.Hit_type.POWER:
-		reciever.damage_recieved.emit(daño*2, direccion, hit_type)
+		reciever.damage_recieved.emit(daño*2*multiplier, direccion, hit_type)
 	else:
-		reciever.damage_recieved.emit(daño, direccion, hit_type)
+		reciever.damage_recieved.emit(daño*multiplier, direccion, hit_type)
 	
