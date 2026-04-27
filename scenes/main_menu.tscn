@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://c6a4d3l33v72q"]
+
+[ext_resource type="Script" uid="uid://vmoub1pnjccu" path="res://scripts/main_menu.gd" id="1_wu84c"]
+[ext_resource type="Texture2D" uid="uid://dacm4x1yal12l" path="res://assets/oak_woods_v1.0/background/background_layer_1.png" id="2_8ln24"]
+[ext_resource type="Texture2D" uid="uid://b5q1g7tdpg3qd" path="res://assets/oak_woods_v1.0/background/background_layer_2.png" id="3_rtw2f"]
+[ext_resource type="FontFile" uid="uid://uvx7rkmp2ngy" path="res://assets/font/alagard.ttf" id="4_oa1go"]
+
+[sub_resource type="Theme" id="Theme_fu7sn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jix8l"]
+
+[node name="main_menu" type="CanvasLayer" unique_id=2065368217]
+script = ExtResource("1_wu84c")
+
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=1052056549]
+scroll_scale = Vector2(0.2, 0.2)
+repeat_size = Vector2(320, 0)
+autoscroll = Vector2(15, 0)
+
+[node name="Background1" type="Sprite2D" parent="Parallax2D" unique_id=1214934833]
+texture = ExtResource("2_8ln24")
+centered = false
+
+[node name="Parallax2D2" type="Parallax2D" parent="." unique_id=96927016]
+scroll_scale = Vector2(0.6, 0.6)
+repeat_size = Vector2(320, 0)
+autoscroll = Vector2(30, 0)
+
+[node name="Background2" type="Sprite2D" parent="Parallax2D2" unique_id=140821478]
+texture = ExtResource("3_rtw2f")
+centered = false
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1377282846]
+offset_right = 320.0
+offset_bottom = 180.0
+color = Color(0, 0, 0, 0.3137255)
+
+[node name="Label" type="Label" parent="." unique_id=1436468880]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -38.5
+offset_top = 18.0
+offset_right = 38.5
+offset_bottom = 42.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("4_oa1go")
+theme_override_font_sizes/font_size = 25
+text = "'em up"
+
+[node name="Panel" type="Panel" parent="." unique_id=1615889573]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.5
+offset_top = -35.0
+offset_right = 50.5
+offset_bottom = 67.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_fu7sn")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_jix8l")
+
+[node name="start" type="Button" parent="Panel" unique_id=1043329830]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -38.0
+offset_right = 38.0
+offset_bottom = 31.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("4_oa1go")
+theme_override_font_sizes/font_size = 15
+text = "Empezar"
+
+[node name="options" type="Button" parent="Panel" unique_id=40956163]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -15.5
+offset_right = 40.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_oa1go")
+theme_override_font_sizes/font_size = 15
+text = "Opciones"
+
+[node name="quit" type="Button" parent="Panel" unique_id=949064801]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -21.0
+offset_top = -31.0
+offset_right = 21.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("4_oa1go")
+theme_override_font_sizes/font_size = 15
+text = "Salir"
+
+[connection signal="pressed" from="Panel/start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Panel/options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Panel/quit" to="." method="_on_quit_pressed"]

@@ -6,6 +6,7 @@ class_name Flecha
 @export var gravity_strength:float=300.0
 
 @onready var sprite:Sprite2D=$Sprite2D
+@onready var sfx_do_damage:AudioStreamPlayer2D=$SFXDoDamage
 
 var direction:float=1.0
 var shooter:Node=null
@@ -30,6 +31,7 @@ func _on_area_entered(area:Area2D)->void:
 	if area==shooter.damage_reciever:
 		return
 	if area not in already_hit:
+		sfx_do_damage.play()
 		already_hit.append(area)
 		shooter.apply_damage_emitted(area,Damage_Reciever.Hit_type.NORMAL)
 		queue_free()

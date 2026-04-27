@@ -14,6 +14,18 @@ class_name Player
 @onready var enemy_slots:Array=$EnemySlots.get_children()
 @onready var archer_slots:Array=$ArcherSlots.get_children()
 @onready var damage_emitter_jump_attack:=$damage_emitter_jump_attack
+@onready var sfx_attack:AudioStreamPlayer2D=$SFXAttack
+@onready var sfx_attack2:AudioStreamPlayer2D=$SFXAttack2
+@onready var sfx_attack3:AudioStreamPlayer2D=$SFXAttack3
+@onready var sfx_walk:AudioStreamPlayer2D=$SFXWalk
+@onready var sfx_dash:AudioStreamPlayer2D=$SFXDash
+@onready var sfx_jump:AudioStreamPlayer2D=$SFXJump
+@onready var sfx_roll:AudioStreamPlayer2D=$SFXRoll
+@onready var sfx_land:AudioStreamPlayer2D=$SFXLand
+@onready var sfx_skill_2:AudioStreamPlayer2D=$SFXSkill2
+@onready var sfx_skill_1:AudioStreamPlayer2D=$SFXSkill1
+@onready var sfx_take_damage:AudioStreamPlayer2D=$SFXTakeDamage
+@onready var sfx_death:AudioStreamPlayer2D=$SFXDeath
 
 enum Estado{IDLE,WALK,ATTACK,ATTACK2,ATTACKNOMOVEMENT2,JUMP,FALL,ATTACKNOMOVEMENT,ROLL,TURN_AROUND,RUN,JUMPSPECIFICATTACK,HURT,DEATH,DASH}
 
@@ -42,6 +54,7 @@ var last_dir:=1.0
 var pending_flip:float=0.0
 var jumped_from_run:bool=false
 var skills_active:bool=false
+var was_airborn:bool=false
 
 
 func _ready() -> void:
@@ -63,6 +76,7 @@ func handle_input(delta)->void:
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor() and state!=Estado.ROLL and state!=Estado.DASH:
 		velocity.y = JUMP_VELOCITY
 		jumped_from_run=state==Estado.RUN
+		sfx_jump.play()
 	var direccion=Input.get_axis("left", "right")
 	
 	
@@ -82,8 +96,10 @@ func handle_input(delta)->void:
 	if Input.is_action_just_pressed("roll") and state!=Estado.ROLL and state!=Estado.RUN and state!=Estado.DASH:
 		if is_on_floor():
 			state=Estado.ROLL
+			sfx_roll.play()
 		else:
 			state=Estado.DASH
+			sfx_dash.play()
 
 	if Input.is_action_just_released("roll") and state==Estado.RUN:
 		state=Estado.IDLE
@@ -97,16 +113,19 @@ func handle_input(delta)->void:
 				damage_emitter_jump_attack.scale.x=last_dir
 				cooldown_timer.start()
 				spawn_power_attack_effect()
+				sfx_attack3.play()
 			elif is_on_floor() and direccion!=0:
 				state=Estado.ATTACK
 				attack_on_cooldown=true
 				damage_applied=false
 				cooldown_timer.start()
+				sfx_attack.play()
 			elif is_on_floor() and direccion==0:
 				state=Estado.ATTACKNOMOVEMENT
 				attack_on_cooldown=true
 				damage_applied=false
 				cooldown_timer.start()
+				sfx_attack.play()
 		elif state==Estado.ATTACK or state==Estado.ATTACKNOMOVEMENT:
 			attack2_queued=true
 
@@ -118,25 +137,42 @@ func handle_animations()->void:
 
 func handle_movement() -> void:
 	if state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.ATTACKNOMOVEMENT or state==Estado.TURN_AROUND or state==Estado.ROLL or state==Estado.JUMPSPECIFICATTACK or state==Estado.DASH or state==Estado.ATTACKNOMOVEMENT2 or state==Estado.HURT or state==Estado.DEATH:
+		stop_walk_sfx()
 		return
 	if state==Estado.RUN:
 		if not is_on_floor() and velocity.y<0:
 			state=Estado.JUMP
+			stop_walk_sfx()
 		elif not is_on_floor() and velocity.y>0:
 			state=Estado.FALL
+			stop_walk_sfx()
+		else:
+			play_walk_sfx()
 		return
 	if velocity.length()!=0 and is_on_floor():
+		if was_airborn:
+			sfx_land.play()
+			was_airborn=false
 		jumped_from_run=false
 		if Input.is_action_pressed("roll"):
 			state=Estado.RUN
 		else:
 			state=Estado.WALK
+			play_walk_sfx()
 	elif not is_on_floor() and velocity.y<0:
 		state=Estado.JUMP
+		was_airborn=true
+		stop_walk_sfx()
 	elif not is_on_floor() and velocity.y>0:
 		state=Estado.FALL
+		was_airborn=true
+		stop_walk_sfx()
 	else:
+		if was_airborn:
+			sfx_land.play()
+			was_airborn=false
 		state=Estado.IDLE
+		stop_walk_sfx()
 
 
 func on_animation_finished()->void:
@@ -180,12 +216,14 @@ func on_animation_finished()->void:
 			damage_applied=false
 			cooldown_timer.start()
 			spawn_attack2_effect()
+			sfx_attack2.play()
 		elif attack2_queued and state==Estado.ATTACKNOMOVEMENT:
 			state=Estado.ATTACKNOMOVEMENT2
 			attack2_queued=false
 			damage_applied=false
 			cooldown_timer.start()
 			spawn_attack2_effect()
+			sfx_attack2.play()
 		else:
 			attack2_queued=false
 			state=Estado.IDLE
@@ -209,8 +247,10 @@ func on_recieve_damage(damage:int, _direccion:Vector2, hit_type:Damage_Reciever.
 	print("player hit for: ", damage, " hp: ", current_hp)
 	current_hp=clamp(current_hp-damage,0,max_hp)
 	if current_hp<=0:
+		sfx_death.play()
 		state=Estado.DEATH
 	else:
+		sfx_take_damage.play()
 		state=Estado.HURT
 		velocity.x=0
 
@@ -290,6 +330,7 @@ func on_frame_changed()->void:
 func spawn_power_attack_effect()->void:
 	if skill1==null or skill2==null or not skills_active:
 		return
+	sfx_skill_1.play()
 	var effect=skill1.instantiate()
 	effect.player=self
 	effect.hit_type=Damage_Reciever.Hit_type.KNOCKDOWN
@@ -315,6 +356,7 @@ func on_skill_hit(daño_hecho:int)->void:
 func spawn_attack2_effect()->void:
 	if skill3==null or not skills_active:
 		return
+	sfx_skill_1.play()
 	var effect=skill3.instantiate()
 	effect.player=self
 	effect.hit_type=Damage_Reciever.Hit_type.NORMAL
@@ -322,3 +364,12 @@ func spawn_attack2_effect()->void:
 	effect.on_hit=on_skill_hit
 	get_parent().add_child(effect)
 	effect.global_position=global_position+Vector2(last_dir*48,-20)
+
+
+func play_walk_sfx()->void:
+	if not sfx_walk.playing:
+		sfx_walk.play()
+
+func stop_walk_sfx()->void:
+	if sfx_walk.playing:
+		sfx_walk.stop()

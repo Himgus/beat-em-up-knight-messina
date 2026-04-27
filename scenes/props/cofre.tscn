@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://7dbtvf4525pa"]
 
-[ext_resource type="Script" uid="uid://dv1mq0fd2sgsk" path="res://scenes/props/cofre.gd" id="1_s3df6"]
-[ext_resource type="Texture2D" uid="uid://okk4i5u2q67t" path="res://assets/chestsAll.png" id="2_s3df6"]
-[ext_resource type="PackedScene" uid="uid://ogy52psifytk" path="res://scenes/colliders/damage_reciever.tscn" id="3_41x60"]
-[ext_resource type="PackedScene" uid="uid://dum1mnmcd3qe8" path="res://scenes/colliders/damage_emitter.tscn" id="4_0xrin"]
+[ext_resource type="Script" uid="uid://dv1mq0fd2sgsk" path="res://scenes/props/cofre.gd" id="1_bwyl0"]
+[ext_resource type="Texture2D" uid="uid://okk4i5u2q67t" path="res://assets/chestsAll.png" id="2_vpxjj"]
+[ext_resource type="PackedScene" uid="uid://ogy52psifytk" path="res://scenes/colliders/damage_reciever.tscn" id="3_mhxgx"]
+[ext_resource type="PackedScene" uid="uid://dum1mnmcd3qe8" path="res://scenes/colliders/damage_emitter.tscn" id="4_5msx1"]
+[ext_resource type="AudioStream" uid="uid://ch4hf0vjptd86" path="res://assets/Minifantasy_Dungeon_SFX/03_crate_open_1.wav" id="5_3twiv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ql3cj"]
 size = Vector2(16, 16)
@@ -16,19 +17,19 @@ size = Vector2(40, 20)
 
 [node name="cofre" type="StaticBody2D" unique_id=436069205]
 collision_layer = 9
-script = ExtResource("1_s3df6")
+script = ExtResource("1_bwyl0")
 knockback = 200.0
 damage = 2
 
 [node name="cofres" type="Sprite2D" parent="." unique_id=2011139318]
 scale = Vector2(2, 2)
-texture = ExtResource("2_s3df6")
+texture = ExtResource("2_vpxjj")
 centered = false
 offset = Vector2(-8, -16)
 hframes = 3
 vframes = 4
 
-[node name="damage_reciever" parent="." unique_id=1597959072 instance=ExtResource("3_41x60")]
+[node name="damage_reciever" parent="." unique_id=1597959072 instance=ExtResource("3_mhxgx")]
 position = Vector2(0, -12)
 collision_layer = 64
 
@@ -52,7 +53,7 @@ color = Color(0, 0, 0, 0.5019608)
 position = Vector2(0, -12)
 shape = SubResource("RectangleShape2D_s3df6")
 
-[node name="damage_emitter" parent="." unique_id=1661876966 instance=ExtResource("4_0xrin")]
+[node name="damage_emitter" parent="." unique_id=1661876966 instance=ExtResource("4_5msx1")]
 position = Vector2(0, -12)
 collision_mask = 32
 monitoring = true
@@ -60,6 +61,9 @@ monitorable = true
 
 [node name="CollisionShape2D" parent="damage_emitter" index="0" unique_id=6924063]
 shape = SubResource("RectangleShape2D_41x60")
+
+[node name="SFXOpen" type="AudioStreamPlayer2D" parent="." unique_id=911703112]
+stream = ExtResource("5_3twiv")
 
 [editable path="damage_reciever"]
 [editable path="damage_emitter"]

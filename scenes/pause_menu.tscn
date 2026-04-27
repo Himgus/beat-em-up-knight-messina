@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://d12jugij8q8l"]
+
+[ext_resource type="FontFile" uid="uid://uvx7rkmp2ngy" path="res://assets/font/alagard.ttf" id="1_hdmo1"]
+[ext_resource type="Script" uid="uid://bjwcy7cnidi8" path="res://scripts/pause_menu.gd" id="1_nwcfo"]
+
+[node name="CanvasLayer" type="CanvasLayer" unique_id=18685490]
+script = ExtResource("1_nwcfo")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1504138311]
+offset_right = 320.0
+offset_bottom = 180.0
+color = Color(0, 0, 0, 0.3137255)
+
+[node name="Button" type="Button" parent="." unique_id=1530020219]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -34.5
+offset_top = -15.5
+offset_right = 34.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_hdmo1")
+theme_override_font_sizes/font_size = 15
+text = "Resumir"
+
+[node name="Button2" type="Button" parent="." unique_id=694157145]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -30.5
+offset_top = -60.0
+offset_right = 30.5
+offset_bottom = -29.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_hdmo1")
+theme_override_font_sizes/font_size = 15
+text = "Salir al menu"
+
+[node name="Label" type="Label" parent="." unique_id=578495388]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -41.5
+offset_top = 24.0
+offset_right = 41.5
+offset_bottom = 47.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_hdmo1")
+theme_override_font_sizes/font_size = 20
+text = "PAUSADO"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Button" to="." method="_on_resumir_pressed"]
+[connection signal="pressed" from="Button2" to="." method="_on_quit_pressed"]

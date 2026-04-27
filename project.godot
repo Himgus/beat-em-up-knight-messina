@@ -11,8 +11,12 @@ config_version=5
 [application]
 
 config/name="BeatEmU-messina"
-run/main_scene="uid://dindnmn8lijbc"
+run/main_scene="uid://c6a4d3l33v72q"
 config/features=PackedStringArray("4.6", "Forward Plus")
+
+[autoload]
+
+Global="*uid://k3cqc8a322c8"
 
 [display]
 

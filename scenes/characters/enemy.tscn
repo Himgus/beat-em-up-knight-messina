@@ -9,6 +9,11 @@
 [ext_resource type="Texture2D" uid="uid://cl5jms5spgldo" path="res://assets/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc with shadows/orc_shadow_idle.png" id="6_f0ik5"]
 [ext_resource type="Texture2D" uid="uid://p2tulk1yek1" path="res://assets/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc with shadows/orc_shadow_walk.png" id="7_x5khh"]
 [ext_resource type="PackedScene" uid="uid://dum1mnmcd3qe8" path="res://scenes/colliders/damage_emitter.tscn" id="9_f0ik5"]
+[ext_resource type="AudioStream" uid="uid://28emnyw2v52e" path="res://assets/Minifantasy_Dungeon_SFX/25_orc_walk_stone_3.wav" id="10_gpyvg"]
+[ext_resource type="AudioStream" uid="uid://4d8qs8s0p80o" path="res://assets/Minifantasy_Dungeon_SFX/21_orc_damage_1.wav" id="11_ovt1e"]
+[ext_resource type="AudioStream" uid="uid://00jbrdqxmdq3" path="res://assets/Minifantasy_Dungeon_SFX/17_orc_atk_sword_2.wav" id="11_tjfok"]
+[ext_resource type="AudioStream" uid="uid://deq0ceqd4avry" path="res://assets/Minifantasy_Dungeon_SFX/26_sword_hit_3.wav" id="12_hvulg"]
+[ext_resource type="AudioStream" uid="uid://chv543p60kk4r" path="res://assets/Minifantasy_Dungeon_SFX/24_orc_death_spin.wav" id="14_hvulg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tjfok"]
 atlas = ExtResource("2_x5khh")
@@ -341,6 +346,21 @@ collision_mask = 32
 
 [node name="CollisionShape2D" parent="collateral_damage_emitter" index="0" unique_id=6924063]
 shape = SubResource("RectangleShape2D_rc7n0")
+
+[node name="SFXWalk" type="AudioStreamPlayer2D" parent="." index="6" unique_id=1393661202]
+stream = ExtResource("10_gpyvg")
+
+[node name="SFXTakeDamage" type="AudioStreamPlayer2D" parent="." index="7" unique_id=332567751]
+stream = ExtResource("11_ovt1e")
+
+[node name="SFXDoDamage" type="AudioStreamPlayer2D" parent="." index="8" unique_id=321277627]
+stream = ExtResource("12_hvulg")
+
+[node name="SFXAttack" type="AudioStreamPlayer2D" parent="." index="9" unique_id=835395412]
+stream = ExtResource("11_tjfok")
+
+[node name="SFXDeath" type="AudioStreamPlayer2D" parent="." index="10" unique_id=1363371632]
+stream = ExtResource("14_hvulg")
 
 [editable path="damage_emitter"]
 [editable path="damage_reciever"]

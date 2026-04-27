@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://btueix1sdfqwj"]
+
+[ext_resource type="Texture2D" uid="uid://dacm4x1yal12l" path="res://assets/oak_woods_v1.0/background/background_layer_1.png" id="1_hm4m4"]
+[ext_resource type="Script" uid="uid://c5d4tmmnga1o4" path="res://scripts/options_menu.gd" id="1_lfjc7"]
+[ext_resource type="Texture2D" uid="uid://b5q1g7tdpg3qd" path="res://assets/oak_woods_v1.0/background/background_layer_2.png" id="2_lfjc7"]
+[ext_resource type="FontFile" uid="uid://uvx7rkmp2ngy" path="res://assets/font/alagard.ttf" id="3_3xsyx"]
+
+[node name="options_menu" type="CanvasLayer" unique_id=955285248]
+script = ExtResource("1_lfjc7")
+
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=792047070]
+scroll_scale = Vector2(0.2, 0.2)
+repeat_size = Vector2(320, 0)
+autoscroll = Vector2(15, 0)
+
+[node name="Background1" type="Sprite2D" parent="Parallax2D" unique_id=924640897]
+texture = ExtResource("1_hm4m4")
+centered = false
+
+[node name="Parallax2D2" type="Parallax2D" parent="." unique_id=1989420505]
+scroll_scale = Vector2(0.6, 0.6)
+repeat_size = Vector2(320, 0)
+autoscroll = Vector2(30, 0)
+
+[node name="Background2" type="Sprite2D" parent="Parallax2D2" unique_id=2110285199]
+texture = ExtResource("2_lfjc7")
+centered = false
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=301828045]
+offset_right = 320.0
+offset_bottom = 180.0
+color = Color(0, 0, 0, 0.3137255)
+
+[node name="Label" type="Label" parent="." unique_id=1974772912]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -38.5
+offset_top = 18.0
+offset_right = 38.5
+offset_bottom = 42.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("3_3xsyx")
+theme_override_font_sizes/font_size = 25
+text = "Opciones"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1968903299]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -20.0
+offset_right = 24.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="musica" type="Button" parent="HBoxContainer" unique_id=17709847]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_3xsyx")
+text = "Musica: ON"
+
+[node name="atras" type="Button" parent="." unique_id=1218225195]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -22.0
+offset_top = -56.0
+offset_right = 22.0
+offset_bottom = -33.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_3xsyx")
+theme_override_font_sizes/font_size = 15
+text = "Atras"
+
+[connection signal="pressed" from="HBoxContainer/musica" to="." method="_on_btn_musica_pressed"]
+[connection signal="pressed" from="atras" to="." method="_on_back_pressed"]

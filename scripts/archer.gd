@@ -9,6 +9,10 @@ class_name Archer
 @export var archer_slot:ArcherSlot
 
 @onready var collateral_damage_emitter:=$collateral_damage_emitter
+@onready var sfx_walk:AudioStreamPlayer2D=$SFXWalk
+@onready var sfx_attack:AudioStreamPlayer2D=$SFXAttack
+@onready var sfx_take_damage:AudioStreamPlayer2D=$SFXTakeDamage
+@onready var sfx_death:AudioStreamPlayer2D=$SFXDeath
 
 var knocked_down:bool=false
 var stun_timer:float=0.0
@@ -98,11 +102,14 @@ func handle_input(delta) -> void:
 
 func handle_movement()->void:
 	if state==Estado.ATTACK or state==Estado.HURT or state==Estado.DEATH or state==Estado.PREPATTACK:
+		stop_walk_sfx()
 		return
 	if velocity.length()!=0 and is_on_floor():
 		state=Estado.WALK
+		play_walk_sfx()
 	else:
 		state=Estado.IDLE
+		stop_walk_sfx()
 
 func handle_animations()->void:
 	if animacion_map.has(state):
@@ -122,6 +129,7 @@ func on_recieve_damage(damage: int, direccion: Vector2, hit_type: Damage_Recieve
 		player.free_archer_slot(self)
 		handle_fall(direccion)
 	else:
+		sfx_take_damage.play()
 		match hit_type:
 			Damage_Reciever.Hit_type.KNOCKDOWN:
 				state = Estado.HURT
@@ -180,6 +188,7 @@ func on_animation_finished()->void:
 func shoot_arrow()->void:
 	if arrow==null or player==null:
 		return
+	sfx_attack.play()
 	var flecha=arrow.instantiate()
 	get_parent().add_child(flecha)
 	flecha.global_position=global_position+Vector2(-30,-30)
@@ -198,3 +207,11 @@ func flip_sprites()->void:
 	else:
 		damage_emitter.scale.x=-1
 		damage_reciever.scale.x=-1
+
+func play_walk_sfx()->void:
+	if not sfx_walk.playing:
+		sfx_walk.play()
+
+func stop_walk_sfx()->void:
+	if sfx_walk.playing:
+		sfx_walk.stop()

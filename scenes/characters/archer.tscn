@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://ccd2a5ft6tuls"]
+[gd_scene format=3 uid="uid://tow0qn36yn1r"]
 
 [ext_resource type="PackedScene" uid="uid://dou1nv6ieu41k" path="res://scenes/characters/character.tscn" id="1_ei7oo"]
 [ext_resource type="Script" uid="uid://dmv3gx7wse7eh" path="res://scripts/archer.gd" id="2_cvspa"]
@@ -9,6 +9,10 @@
 [ext_resource type="Texture2D" uid="uid://cmbask5f621th" path="res://assets/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier with shadows/soldier_death.png" id="4_agr2k"]
 [ext_resource type="Texture2D" uid="uid://dqmn7vn4sse2v" path="res://assets/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier with shadows/soldier_hurt.png" id="5_8p4ry"]
 [ext_resource type="Texture2D" uid="uid://cx6rprdbewwfq" path="res://assets/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier with shadows/soldier_walk.png" id="7_vmqvw"]
+[ext_resource type="AudioStream" uid="uid://28emnyw2v52e" path="res://assets/Minifantasy_Dungeon_SFX/25_orc_walk_stone_3.wav" id="10_87skv"]
+[ext_resource type="AudioStream" uid="uid://4d8qs8s0p80o" path="res://assets/Minifantasy_Dungeon_SFX/21_orc_damage_1.wav" id="11_wcs5x"]
+[ext_resource type="AudioStream" uid="uid://00jbrdqxmdq3" path="res://assets/Minifantasy_Dungeon_SFX/17_orc_atk_sword_2.wav" id="13_1q303"]
+[ext_resource type="AudioStream" uid="uid://chv543p60kk4r" path="res://assets/Minifantasy_Dungeon_SFX/24_orc_death_spin.wav" id="14_qn14x"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vmqvw"]
 atlas = ExtResource("4_8p4ry")
@@ -303,6 +307,18 @@ collision_mask = 32
 shape = SubResource("RectangleShape2D_cvspa")
 
 [node name="CooldownTimer" type="Timer" parent="." index="5" unique_id=805781325]
+
+[node name="SFXWalk" type="AudioStreamPlayer2D" parent="." index="6" unique_id=108446376]
+stream = ExtResource("10_87skv")
+
+[node name="SFXTakeDamage" type="AudioStreamPlayer2D" parent="." index="7" unique_id=1423486131]
+stream = ExtResource("11_wcs5x")
+
+[node name="SFXAttack" type="AudioStreamPlayer2D" parent="." index="8" unique_id=228538962]
+stream = ExtResource("13_1q303")
+
+[node name="SFXDeath" type="AudioStreamPlayer2D" parent="." index="9" unique_id=1761502693]
+stream = ExtResource("14_qn14x")
 
 [editable path="damage_emitter"]
 [editable path="damage_reciever"]

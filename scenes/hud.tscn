@@ -1,12 +1,50 @@
-[gd_scene format=3 uid="uid://cltwg3nq777v0"]
+[gd_scene format=3 uid="uid://bfnupibdljxkn"]
 
 [ext_resource type="Script" uid="uid://bklf3nrr1mcsx" path="res://scripts/hud.gd" id="1_ahhtf"]
 [ext_resource type="Texture2D" uid="uid://dxvoeplrh4l8y" path="res://assets/Pixel Art Animations - Warrior (FREE)/VFX 5/Frames/warrior_skill5_frame3.png" id="2_oo0fn"]
+[ext_resource type="Script" uid="uid://dqoa3i3deryxe" path="res://scripts/progress_bar.gd" id="3_5ysmq"]
+[ext_resource type="FontFile" uid="uid://uvx7rkmp2ngy" path="res://assets/font/alagard.ttf" id="3_6fi6k"]
+[ext_resource type="Script" uid="uid://b7b2g0m2qat2t" path="res://scripts/boss_bar.gd" id="5_uo2fv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uo2fv"]
+bg_color = Color(0.8980392, 0.06666667, 0.18039216, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_047uy"]
+bg_color = Color(0.08235294, 0.6862745, 0.19607843, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5pdws"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hd3ao"]
+bg_color = Color(0.56081206, 0.0014206272, 0.7322659, 1)
 
 [node name="hud" type="CanvasLayer" unique_id=1034062637]
 script = ExtResource("1_ahhtf")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=63542301]
+position = Vector2(1.9999999, 14.999999)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("2_oo0fn")
 centered = false
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=142866254]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 130.0
+offset_bottom = 14.0
+theme_override_fonts/font = ExtResource("3_6fi6k")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/background = SubResource("StyleBoxFlat_uo2fv")
+theme_override_styles/fill = SubResource("StyleBoxFlat_047uy")
+script = ExtResource("3_5ysmq")
+
+[node name="boss_bar" type="ProgressBar" parent="." unique_id=781172525]
+offset_left = 188.0
+offset_top = 2.0
+offset_right = 318.0
+offset_bottom = 14.0
+theme_override_fonts/font = ExtResource("3_6fi6k")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/background = SubResource("StyleBoxFlat_5pdws")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hd3ao")
+script = ExtResource("5_uo2fv")

@@ -6,6 +6,11 @@ class_name Enemy
 @export var duration_prep_hit:int
 
 @onready var collateral_damage_emitter:=$collateral_damage_emitter
+@onready var sfx_walk:AudioStreamPlayer2D=$SFXWalk
+@onready var sfx_attack:AudioStreamPlayer2D=$SFXAttack
+@onready var sfx_do_damage:AudioStreamPlayer2D=$SFXDoDamage
+@onready var sfx_take_damage:AudioStreamPlayer2D=$SFXTakeDamage
+@onready var sfx_death:AudioStreamPlayer2D=$SFXDeath
 
 enum Estado{IDLE,WALK,DEATH,HURT,ATTACK,ATTACK2,PREPATTACK}
 
@@ -103,19 +108,24 @@ func player_on_range()->bool:
 
 func handle_movement() -> void:
 	if state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.HURT or state==Estado.DEATH or state==Estado.PREPATTACK or knocked_down:
+		stop_walk_sfx()
 		return
 	if velocity.length()!=0 and is_on_floor():
 		state=Estado.WALK
+		play_walk_sfx()
 	else:
 		state=Estado.IDLE
+		stop_walk_sfx()
 
 func on_recieve_damage(damage:int, direccion:Vector2, hit_type:Damage_Reciever.Hit_type)->void:
 	current_hp=clamp(current_hp-damage,0,max_hp)
 	if current_hp<=0:
+		sfx_death.play()
 		state=Estado.DEATH
 		player.free_slot(self)
 		handle_fall(direccion)
 	else:
+		sfx_take_damage.play()
 		match hit_type:
 			Damage_Reciever.Hit_type.KNOCKDOWN:
 				state=Estado.HURT
@@ -166,6 +176,7 @@ func handle_damage()-> void:
 			for area in damage_emitter.get_overlapping_areas():
 				apply_damage_emitted(area, Damage_Reciever.Hit_type.NORMAL)
 			damage_applied=true
+			sfx_do_damage.play()
 
 
 func on_collateral_area_entered(area:Area2D)->void:
@@ -203,7 +214,17 @@ func handle_prep_attack()->void:
 		state=Estado.ATTACK
 		time_since_last_hit=Time.get_ticks_msec()
 		damage_applied=false
+		sfx_attack.play()
 		
 func on_frame_changed() -> void:
 	if state == Estado.ATTACK and animated_sprite.frame == 0:
 		damage_applied = false
+
+
+func play_walk_sfx()->void:
+	if not sfx_walk.playing:
+		sfx_walk.play()
+
+func stop_walk_sfx()->void:
+	if sfx_walk.playing:
+		sfx_walk.stop()

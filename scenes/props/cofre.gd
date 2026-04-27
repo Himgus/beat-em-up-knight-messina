@@ -6,6 +6,7 @@ extends StaticBody2D
 @onready var damage_reciever:Damage_Reciever=$damage_reciever
 @onready var damage_emitter:Area2D=$damage_emitter
 @onready var cofres:=$cofres
+@onready var sfx_open:AudioStreamPlayer2D=$SFXOpen
 
 enum Estado{IDLE,OPEN}
 var state:=Estado.IDLE
@@ -30,6 +31,7 @@ func _process(delta: float) -> void:
 func on_recieve_damage(damage_taken:int, direccion:Vector2, hit_type:Damage_Reciever.Hit_type)->void:
 	if state==Estado.IDLE:
 		cofres.frame=2
+		sfx_open.play()
 		state=Estado.OPEN
 		match hit_type:
 			Damage_Reciever.Hit_type.NORMAL:
