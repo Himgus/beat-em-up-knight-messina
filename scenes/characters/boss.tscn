@@ -419,7 +419,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_18lpd")
 }],
-"loop": true,
+"loop": false,
 "name": &"dash",
 "speed": 5.0
 }, {
@@ -583,7 +583,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1px06")
 }],
-"loop": true,
+"loop": false,
 "name": &"roll",
 "speed": 5.0
 }, {
@@ -597,7 +597,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_251ly")
 }],
-"loop": true,
+"loop": false,
 "name": &"turn_around",
 "speed": 5.0
 }, {
@@ -654,13 +654,17 @@ size = Vector2(10, 18)
 collision_layer = 4
 collision_mask = 136
 script = ExtResource("2_edpq3")
-run_velocity = 0.0
-roll_velocity = 0.0
-jump_attack_velocity = 0.0
+run_velocity = 200.0
+roll_velocity = 150.0
+jump_attack_velocity = 300.0
+velocidad = 70.0
+max_hp = 100
+"daño" = 4
+JUMP_VELOCITY = -300
 
 [node name="AnimatedSprite2D" parent="." index="0" unique_id=237200550]
 sprite_frames = SubResource("SpriteFrames_lh50j")
-animation = &"idle"
+animation = &"walk"
 autoplay = "idle"
 
 [node name="character_collision" parent="." index="1" unique_id=1250328835]

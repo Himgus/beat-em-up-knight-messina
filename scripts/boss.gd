@@ -53,50 +53,44 @@ func _process(delta:float)->void:
 func _make_decision()->void:
 	if state==Estado.HURT or state==Estado.DEATH or state==Estado.ROLL or state==Estado.DASH or state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.ATTACKNOMOVEMENT or state==Estado.ATTACKNOMOVEMENT2 or state==Estado.JUMPSPECIFICATTACK:
 		return
-	var dist=global_position.distance_to(player.global_position)
-	# react to player attacking — roll or dash away
+	var dist=_dist_to_player()
+	var low_health=current_hp<max_hp*0.3
 	if player.state in [Player.Estado.ATTACK,Player.Estado.ATTACK2,Player.Estado.ATTACKNOMOVEMENT,Player.Estado.ATTACKNOMOVEMENT2]:
-		var roll=randf()
-		if roll<0.5:
+		if randf()<0.5:
 			state=Estado.ROLL
 			return
-		elif roll<0.7:
-			state=Estado.DASH
-			return
-	# close range decisions
-	if dist<80:
-		var roll=randf()
-		if roll<0.3:
-			_do_attack()
-		elif roll<0.5:
-			state=Estado.ROLL
-		elif roll<0.65:
-			chase_player=false
+	if low_health:
+		if dist<80:
+			var roll=randf()
+			if roll<0.3:
+				_do_attack()
+			elif roll<0.6:
+				chase_player=false
+			else:
+				state=Estado.ROLL
 		else:
-			chase_player=true
-	# mid range decisions
+			chase_player=false
+		return
+	if dist<40:
+		chase_player=true
+		_do_attack()
+		if not attack_on_cooldown:
+			attack2_queued=true
 	elif dist<200:
+		chase_player=true
 		var roll=randf()
-		if roll<0.4:
-			_do_attack()
-		elif roll<0.55:
+		if roll<0.6:
 			_do_jump_attack()
-		elif roll<0.7:
-			chase_player=true
 		else:
-			chase_player=false
-	# far range decisions
+			chase_player=true
 	else:
-		var roll=randf()
-		if roll<0.3:
-			_do_jump_attack()
-		elif roll<0.5:
-			state=Estado.RUN
-		else:
-			chase_player=true
+		chase_player=true
+		_do_jump_attack()
 
 func _do_attack()->void:
 	if attack_on_cooldown:
+		return
+	if _dist_to_player()>40:
 		return
 	var moving=abs(velocity.x)>10
 	if randf()<0.5 and moving:
@@ -109,10 +103,20 @@ func _do_attack()->void:
 	if randf()<0.4:
 		attack2_queued=true
 
+func _dist_to_player()->float:
+	return abs(global_position.x-player.global_position.x)-32.0
+
 func _do_jump_attack()->void:
-	if is_on_floor() and not attack_on_cooldown:
-		velocity.y=JUMP_VELOCITY
-		jumped_from_run=true
+	if not is_on_floor() or attack_on_cooldown:
+		return
+	last_dir=sign(player.global_position.x-global_position.x)
+	velocity.y=JUMP_VELOCITY
+	jumped_from_run=true
+	state=Estado.JUMP
+	attack_on_cooldown=true
+	damage_applied=false
+	damage_emitter_jump_attack.scale.x=last_dir
+	cooldown_timer.start()
 
 func handle_input(delta)->void:
 	if not is_on_floor():
@@ -124,9 +128,9 @@ func handle_input(delta)->void:
 	var dir_to_player=sign(player.global_position.x-global_position.x)
 	if state==Estado.JUMPSPECIFICATTACK:
 		velocity.x=last_dir*jump_attack_velocity
-	elif state==Estado.RUN or (jumped_from_run and (state==Estado.JUMP or state==Estado.FALL)):
-		velocity.x=dir_to_player*run_velocity
-		if not is_on_floor() and jumped_from_run and not attack_on_cooldown:
+	elif jumped_from_run and (state==Estado.JUMP or state==Estado.FALL):
+		velocity.x=last_dir*run_velocity
+		if velocity.y>0 and state!=Estado.JUMPSPECIFICATTACK:
 			state=Estado.JUMPSPECIFICATTACK
 			attack_on_cooldown=true
 			damage_applied=false
@@ -152,14 +156,16 @@ func handle_animations()->void:
 func handle_movement()->void:
 	if state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.ATTACKNOMOVEMENT or state==Estado.TURN_AROUND or state==Estado.ROLL or state==Estado.JUMPSPECIFICATTACK or state==Estado.DASH or state==Estado.ATTACKNOMOVEMENT2 or state==Estado.HURT or state==Estado.DEATH:
 		return
-	if state==Estado.RUN:
+	if jumped_from_run:
 		if not is_on_floor() and velocity.y<0:
 			state=Estado.JUMP
 		elif not is_on_floor() and velocity.y>0:
 			state=Estado.FALL
+		elif is_on_floor():
+			jumped_from_run=false
+			state=Estado.IDLE
 		return
 	if velocity.length()!=0 and is_on_floor():
-		jumped_from_run=false
 		state=Estado.WALK
 	elif not is_on_floor() and velocity.y<0:
 		state=Estado.JUMP
@@ -214,18 +220,23 @@ func on_animation_finished()->void:
 			state=Estado.IDLE
 
 func flip_sprites()->void:
-	if state==Estado.TURN_AROUND or state==Estado.ROLL or state==Estado.JUMP or state==Estado.FALL or state==Estado.JUMPSPECIFICATTACK:
+	if state==Estado.TURN_AROUND or state==Estado.ROLL or state==Estado.JUMPSPECIFICATTACK:
 		return
 	if state==Estado.ATTACK or state==Estado.ATTACK2 or state==Estado.ATTACKNOMOVEMENT or state==Estado.ATTACKNOMOVEMENT2:
 		return
-	if velocity.x>0 and last_dir<0:
-		state_after_turn=state
-		state=Estado.TURN_AROUND
-		pending_flip=1.0
-	elif velocity.x<0 and last_dir>0:
-		state_after_turn=state
-		state=Estado.TURN_AROUND
-		pending_flip=-1.0
+	if state==Estado.HURT or state==Estado.DEATH:
+		return
+	var facing_right=player.global_position.x>global_position.x
+	animated_sprite.flip_h=not facing_right
+	last_dir=1.0 if facing_right else -1.0
+	if facing_right:
+		damage_emitter.scale.x=1
+		damage_emitter_jump_attack.scale.x=1
+		damage_reciever.scale.x=1
+	else:
+		damage_emitter.scale.x=-1
+		damage_emitter_jump_attack.scale.x=-1
+		damage_reciever.scale.x=-1
 
 func on_recieve_damage(damage:int,_direccion:Vector2,hit_type:Damage_Reciever.Hit_type)->void:
 	current_hp=clamp(current_hp-damage,0,max_hp)
@@ -234,8 +245,7 @@ func on_recieve_damage(damage:int,_direccion:Vector2,hit_type:Damage_Reciever.Hi
 	else:
 		state=Estado.HURT
 		velocity.x=0
-		# chance to immediately counter after being hit
-		if randf()<0.3:
+		if randf()<0.3 and global_position.distance_to(player.global_position)<=50:
 			attack2_queued=true
 
 func handle_damage()->void:
