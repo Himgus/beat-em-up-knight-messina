@@ -206,7 +206,6 @@ func on_animation_finished()->void:
 		damage_reciever.monitoring=true
 		return
 	if state==Estado.DEATH:
-		print("player queue_free called")
 		queue_free()
 		return
 	if state==Estado.ATTACK or state==Estado.ATTACKNOMOVEMENT or state==Estado.ATTACK2 or state==Estado.ATTACKNOMOVEMENT2 or state==Estado.JUMPSPECIFICATTACK:
@@ -319,10 +318,8 @@ func on_frame_changed()->void:
 		return
 	if state==Estado.ROLL or state==Estado.HURT or state==Estado.DEATH:
 		damage_reciever.monitoring=animated_sprite.frame not in [2,3,4,5,6,7,8,9]
-		print("iframes roll")
 	elif state==Estado.DASH:
 		damage_reciever.monitoring=false
-		print("iframes dash")
 	else:
 		damage_reciever.monitoring=true
 

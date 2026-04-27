@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://yjvlaxswsvqh"]
 
-[ext_resource type="FontFile" uid="uid://uvx7rkmp2ngy" path="res://assets/font/alagard.ttf" id="1_l2arl"]
-[ext_resource type="Script" uid="uid://crmxqpha727i7" path="res://scripts/win_screen.gd" id="1_wmwda"]
+[ext_resource type="Script" uid="uid://crmxqpha727i7" path="res://scripts/win_screen.gd" id="1_erk2x"]
+[ext_resource type="FontFile" uid="uid://uvx7rkmp2ngy" path="res://assets/font/alagard.ttf" id="2_2l6cc"]
 
 [node name="win_screen" type="CanvasLayer" unique_id=1764669200]
-script = ExtResource("1_wmwda")
+script = ExtResource("1_erk2x")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=470615695]
 offset_right = 320.0
@@ -20,7 +20,7 @@ offset_top = 19.0
 offset_right = 49.0
 offset_bottom = 43.0
 grow_horizontal = 2
-theme_override_fonts/font = ExtResource("1_l2arl")
+theme_override_fonts/font = ExtResource("2_2l6cc")
 theme_override_font_sizes/font_size = 25
 text = "Victoria!"
 
@@ -36,5 +36,8 @@ offset_right = 60.5
 offset_bottom = 52.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("1_l2arl")
+theme_override_fonts/font = ExtResource("2_2l6cc")
 text = "Menu principal"
+
+[connection signal="pressed" from="Button" to="." method="_on_menu_button_pressed"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

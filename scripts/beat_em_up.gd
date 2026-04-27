@@ -96,5 +96,5 @@ func _get_active_enemies()->Array:
 
 func _on_win_body_entered(body):
 	if body is Player and boss_defeated:
-		win_screen.show_win()
+		get_tree().change_scene_to_file("res://scenes/win_screen.tscn")
 		body.queue_free()

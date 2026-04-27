@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://bijsj615ider1" path="res://scenes/characters/enemy.tscn" id="6_ebpxy"]
 [ext_resource type="PackedScene" path="res://scenes/characters/boss_helper.tscn" id="7_ebpxy"]
 [ext_resource type="PackedScene" uid="uid://djwev6r0j2r" path="res://scenes/characters/boss.tscn" id="8_8m026"]
-[ext_resource type="PackedScene" uid="uid://yjvlaxswsvqh" path="res://win_screen.tscn" id="10_48lgr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ybf1s"]
 size = Vector2(6, 180)
@@ -110,9 +109,5 @@ collision_mask = 2
 position = Vector2(2562.5, 87.5)
 shape = SubResource("RectangleShape2D_utdpc")
 debug_color = Color(0.7723186, 0.44080463, 0.13426179, 0.41960785)
-
-[node name="win_screen" parent="." unique_id=1764669200 instance=ExtResource("10_48lgr")]
-offset = Vector2(2240, 0)
-transform = Transform2D(1, 0, 0, 1, 2240, 0)
 
 [editable path="hud"]

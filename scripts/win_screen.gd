@@ -1,14 +1,9 @@
 extends CanvasLayer
 
-func _ready():
-	hide()
+func _ready()->void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
-func show_win():
-	show()
-	get_tree().paused = true
-
-func _on_menu_button_pressed():
+func _on_menu_button_pressed()->void:
 	Global.music_player.stop()
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
